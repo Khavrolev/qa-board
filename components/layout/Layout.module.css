@@ -8,6 +8,10 @@
   flex-direction: column;
 }
 
+.wrapper__main {
+  margin-top: 10px;
+}
+
 .main {
   display: flex;
   flex: 1;

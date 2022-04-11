@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+}
+
+.header__buttons {
+  margin-left: auto;
+}
+
+.header__logged {
+  display: flex;
+}

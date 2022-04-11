@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Head from "next/head";
 import { FC, ReactNode } from "react";
 import Footer from "../footer/Footer";
@@ -18,7 +19,9 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       </Head>
       <div className={classes.wrapper}>
         <Header />
-        <main className={classes.main}>{children}</main>
+        <main className={classNames(classes.wrapper__main, classes.main)}>
+          {children}
+        </main>
         <Footer />
       </div>
     </>
