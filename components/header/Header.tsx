@@ -8,11 +8,11 @@ const Header = () => {
   console.log(user);
   return (
     <header className={classNames(classes.wrapper__header, classes.header)}>
-      <div>QA board</div>
+      <div className={classes.header__title}>QA board</div>
       <div className={classes.header__buttons}>
         {user && !isLoading && (
           <div className={classes.header__logged}>
-            <div className={classes.header__name}>{user.name}</div>
+            <div className={classes.header__name}>{user.email}</div>
             <Link href="/api/auth/logout">
               <a className={classes.header__button}>Logout</a>
             </Link>

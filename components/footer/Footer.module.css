@@ -1,3 +1,10 @@
 .wrapper__footer {
   margin-top: auto;
 }
+
+.footer {
+  padding: 20px;
+  display: flex;
+  border: 5px #00ffff solid;
+  border-radius: 20%;
+}
