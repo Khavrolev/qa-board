@@ -11,10 +11,11 @@ interface DateProps {
   event: EventsData;
   onUpdateEvent: (event: EventsData) => void;
   type: string;
-  date: string;
 }
 
-const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type, date }) => {
+const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
+  const currentDate = event.fields[type.toLowerCase()];
+
   return (
     <div
       className={classNames(
@@ -25,7 +26,7 @@ const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type, date }) => {
       <div className={classes.dates__desc}>{`${type}:`}</div>
       <DatePicker
         className={classes.dates__date}
-        selected={new Date(date)}
+        selected={new Date(isString(currentDate) ? currentDate : "")}
         showTimeSelect
         dateFormat="Pp"
         locale={ru}

@@ -46,18 +46,8 @@ const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
         </button>
       </div>
       <div className={classNames(classes.events__dates, classes.dates)}>
-        <EventDate
-          event={event}
-          onUpdateEvent={onUpdateEvent}
-          type="Start"
-          date={isString(event.fields.start) ? event.fields.start : ""}
-        />
-        <EventDate
-          event={event}
-          onUpdateEvent={onUpdateEvent}
-          type="End"
-          date={isString(event.fields.end) ? event.fields.end : ""}
-        />
+        <EventDate event={event} onUpdateEvent={onUpdateEvent} type="Start" />
+        <EventDate event={event} onUpdateEvent={onUpdateEvent} type="End" />
       </div>
       <div className={classes.events__qacounter}>
         {`Questions: ${
