@@ -1,6 +1,5 @@
 .events__item {
-  padding: 10px;
-  padding: 15px;
+  padding: 20px;
   border: 3px solid #00ffff;
   box-shadow: 10px 5px 5px #1edada;
 }
@@ -48,6 +47,8 @@
 
 .events__button {
   padding: 5px 15px;
+  text-align: center;
+  min-width: 70px;
   border-radius: 20%;
   transition: background-color 0.3s ease 0s;
 }
