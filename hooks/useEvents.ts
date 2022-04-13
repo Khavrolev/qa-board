@@ -1,18 +1,16 @@
+import { FieldSet } from "airtable";
 import { useCallback, useState } from "react";
 import { EventsData } from "../pages/api/utils/airtable/Interfaces";
 import {
   fetchCreateEvent,
+  fetchDeleteEvent,
   fetchUpdateEvent,
 } from "../pages/api/utils/api/Event";
-import {
-  EventInterface,
-  UpdateEventInterface,
-} from "../pages/api/utils/api/EventInterfaces";
 
 export const useEvents = (initialEvents: EventsData[]) => {
   const [events, setEvents] = useState(initialEvents);
 
-  const handleCreateEvent = async (event: EventInterface) => {
+  const handleCreateEvent = async (event: FieldSet) => {
     try {
       const newEvent = await fetchCreateEvent(event);
       setEvents((prevEvents) => [...prevEvents, newEvent]);
@@ -21,7 +19,8 @@ export const useEvents = (initialEvents: EventsData[]) => {
     }
   };
 
-  const handleUpdateEvent = useCallback(async (event: UpdateEventInterface) => {
+  const handleUpdateEvent = useCallback(async (event: EventsData) => {
+    console.log(event);
     try {
       const updatedEvent = await fetchUpdateEvent(event);
       setEvents((prevEvents) =>
@@ -34,13 +33,11 @@ export const useEvents = (initialEvents: EventsData[]) => {
     }
   }, []);
 
-  const handleDeleteEvent = useCallback(async (event: UpdateEventInterface) => {
+  const handleDeleteEvent = useCallback(async (id: string) => {
     try {
-      const updatedEvent = await fetchUpdateEvent(event);
+      const deletedEvent = await fetchDeleteEvent(id);
       setEvents((prevEvents) =>
-        prevEvents.map((event) =>
-          event.id === updatedEvent.id ? updatedEvent : event,
-        ),
+        prevEvents.filter((event) => event.id !== deletedEvent.id),
       );
     } catch (error) {
       console.error(error);

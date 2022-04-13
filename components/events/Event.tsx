@@ -1,43 +1,70 @@
 import classNames from "classnames";
-import moment from "moment";
-import "moment/locale/ru";
 import { EventsData } from "../../pages/api/utils/airtable/Interfaces";
 import { isArray, isString } from "../../pages/api/utils/guards/Type";
 import classes from "./Event.module.css";
+import "react-datepicker/dist/react-datepicker.css";
+import EventDate from "./EventDate";
+import { ChangeEvent, FC } from "react";
+import debounce from "lodash.debounce";
+
+const DEBOUNCE_TIMEOUT = 1000;
 
 interface EventProps {
   event: EventsData;
+  onUpdateEvent: (event: EventsData) => void;
+  onDeleteEvent: (id: string) => void;
 }
 
-const Event = ({ event }: EventProps) => {
+const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
+  const handleChangeName = debounce(
+    (changeEvent: ChangeEvent<HTMLInputElement>) => {
+      onUpdateEvent({
+        id: event.id,
+        fields: { ...event.fields, name: changeEvent.target.value },
+      });
+    },
+    DEBOUNCE_TIMEOUT,
+  );
+
   return (
     <li className={classes.events__item}>
       <div className={classes.events__title}>
-        <div className={classes.events__name}>
-          {isString(event.fields.name) && event.fields.name}
-        </div>
-        <button className={classes.events__delete}>Delete</button>
-      </div>
-      <div className={classes.events__dates}>
-        <div
+        <input
+          type="text"
+          className={classes.events__name}
+          defaultValue={isString(event.fields.name) ? event.fields.name : ""}
+          onChange={(event) => handleChangeName(event)}
+        />
+        <button
           className={classNames(
-            classes.events__date,
-            classes.events__date_start,
+            classes.events__button,
+            classes.events__button_delete,
           )}
+          onClick={() => onDeleteEvent(event.id)}
         >
-          {isString(event.fields.start) &&
-            `Start: ${moment(event.fields.start).format("LLL")}`}
-        </div>
+          Delete
+        </button>
       </div>
-      <div
-        className={classNames(classes.events__date, classes.events__date_end)}
-      >
-        {isString(event.fields.end) &&
-          `End: ${moment(event.fields.end).format("LLL")}`}
+      <div className={classNames(classes.events__dates, classes.dates)}>
+        <EventDate
+          event={event}
+          onUpdateEvent={onUpdateEvent}
+          type="Start"
+          date={isString(event.fields.start) ? event.fields.start : ""}
+        />
+        <EventDate
+          event={event}
+          onUpdateEvent={onUpdateEvent}
+          type="End"
+          date={isString(event.fields.end) ? event.fields.end : ""}
+        />
       </div>
       <div className={classes.events__qacounter}>
-        {isArray<string>(event.fields.questions) &&
-          `Questions: ${event.fields.questions?.length}`}
+        {`Questions: ${
+          isArray<string>(event.fields.questions)
+            ? event.fields.questions?.length
+            : 0
+        }`}
       </div>
     </li>
   );

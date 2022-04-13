@@ -8,7 +8,7 @@ const handler = async (
   res: NextApiResponse<EventsData | ErrorData>,
 ) => {
   const { id } = req.query;
-  console.log(req);
+
   try {
     const deletedRecords = await (isString(id)
       ? tableEvents.destroy([id])

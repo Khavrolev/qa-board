@@ -21,7 +21,12 @@ const Page = ({ initialEvents }: PageProps) => {
   return (
     <ul className={classNames(classes.main__events, classes.events)}>
       {events.map((event) => (
-        <Event key={event.id} event={event} />
+        <Event
+          key={event.id}
+          event={event}
+          onUpdateEvent={handleUpdateEvent}
+          onDeleteEvent={handleDeleteEvent}
+        />
       ))}
     </ul>
   );
@@ -44,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       props: {
         error: "Ooops! Something went wrong",

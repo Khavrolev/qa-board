@@ -1,7 +1,8 @@
+import { FieldSet } from "airtable";
 import axios from "axios";
-import { EventInterface, UpdateEventInterface } from "./EventInterfaces";
+import { EventsData } from "../airtable/Interfaces";
 
-export const fetchCreateEvent = async (event: EventInterface) => {
+export const fetchCreateEvent = async (event: FieldSet) => {
   const { name, start, end } = event;
   const res = await axios.post("api/airtable/createEvent", {
     name,
@@ -12,7 +13,7 @@ export const fetchCreateEvent = async (event: EventInterface) => {
   return res.data;
 };
 
-export const fetchUpdateEvent = async (event: UpdateEventInterface) => {
+export const fetchUpdateEvent = async (event: EventsData) => {
   const { id, fields } = event;
   const res = await axios.put("api/airtable/updateEvent", {
     id,
