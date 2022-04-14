@@ -2,6 +2,7 @@
   padding: 20px;
   display: flex;
   border: 5px #00ffff solid;
+  box-shadow: 10px 5px 5px #1edada;
 }
 
 .header__title {
@@ -14,9 +15,10 @@
 }
 
 .header__name {
+  margin-right: 20px;
   padding: 8px;
   border: 3px solid yellow;
-  margin-right: 20px;
+  box-shadow: 10px 5px 5px #e5e505;
 }
 
 .header__button {
@@ -26,6 +28,7 @@
   align-self: center;
   min-width: 100px;
   border: 3px solid #00ffff;
+  box-shadow: 10px 5px 5px #1edada;
   border-radius: 20%;
   transition: background-color 0.3s ease 0s;
 }
