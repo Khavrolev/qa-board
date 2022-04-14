@@ -1,11 +1,12 @@
 import classNames from "classnames";
-import { EventsData } from "../../pages/api/utils/airtable/Interfaces";
-import { isArray, isString } from "../../pages/api/utils/guards/Type";
 import classes from "./Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import EventDate from "./EventDate";
 import { ChangeEvent, FC } from "react";
 import debounce from "lodash.debounce";
+import { isArray, isString } from "../../utils/guards/Type";
+import { EventsData } from "../../utils/airtable/Interfaces";
+import { DateType } from "../../utils/enums/Event";
 
 const DEBOUNCE_TIMEOUT = 1000;
 
@@ -36,18 +37,23 @@ const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
           onChange={(event) => handleChangeName(event)}
         />
         <button
-          className={classNames(
-            classes.events__button,
-            classes.events__button_delete,
-          )}
+          className={classes.events__button}
           onClick={() => onDeleteEvent(event.id)}
         >
           Delete
         </button>
       </div>
       <div className={classNames(classes.events__dates, classes.dates)}>
-        <EventDate event={event} onUpdateEvent={onUpdateEvent} type="Start" />
-        <EventDate event={event} onUpdateEvent={onUpdateEvent} type="End" />
+        <EventDate
+          event={event}
+          onUpdateEvent={onUpdateEvent}
+          type={DateType.Start}
+        />
+        <EventDate
+          event={event}
+          onUpdateEvent={onUpdateEvent}
+          type={DateType.End}
+        />
       </div>
       <div className={classes.events__qacounter}>
         {`Questions: ${

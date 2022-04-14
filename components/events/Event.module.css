@@ -39,6 +39,8 @@
 
 .dates__desc {
   margin-right: 10px;
+  min-width: 50px;
+  text-transform: capitalize;
 }
 
 .dates__date:hover {
@@ -48,21 +50,14 @@
 .events__button {
   padding: 5px 15px;
   text-align: center;
-  min-width: 70px;
+  min-width: 100px;
+  border: 3px solid #ff0000;
   border-radius: 20%;
   transition: background-color 0.3s ease 0s;
 }
 
-.events__button:not(:last-child) {
-  margin-right: 10px;
-}
-
 .events__button:hover {
   background-color: #d3d3d3;
-}
-
-.events__button_delete {
-  border: 3px solid #ff0000;
 }
 
 .events__qacounter {

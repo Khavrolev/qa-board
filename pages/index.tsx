@@ -2,12 +2,13 @@ import { ReactElement, useState } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import Layout from "../components/layout/Layout";
 import { GetServerSideProps } from "next";
-import { getMinifiedRecords, tableEvents } from "./api/utils/airtable/Airtable";
-import { EventsData } from "./api/utils/airtable/Interfaces";
 import Event from "../components/events/Event";
 import classes from "../styles/Page.module.css";
 import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
+import { isString } from "../utils/guards/Type";
+import { getMinifiedRecords, tableEvents } from "../utils/airtable/Airtable";
+import { EventsData } from "../utils/airtable/Interfaces";
 
 interface PageProps {
   initialEvents: EventsData[];
@@ -17,18 +18,65 @@ interface PageProps {
 const Page = ({ initialEvents }: PageProps) => {
   const { events, handleCreateEvent, handleUpdateEvent, handleDeleteEvent } =
     useEvents(initialEvents);
+  const [showOldEvents, setShowOldEvents] = useState(false);
+
+  const sortEvents = (prev: EventsData, cur: EventsData) => {
+    if (isString(prev.fields?.start) && isString(cur.fields?.start)) {
+      return new Date(prev.fields.start) >= new Date(cur.fields?.start)
+        ? 1
+        : -1;
+    }
+    return 0;
+  };
+
+  const filterEvents = (event: EventsData) => {
+    if (isString(event.fields?.end) && !showOldEvents) {
+      return (
+        new Date(event.fields.end) >= new Date(new Date().setHours(0, 0, 0, 0))
+      );
+    }
+    return true;
+  };
 
   return (
-    <ul className={classNames(classes.main__events, classes.events)}>
-      {events.map((event) => (
-        <Event
-          key={event.id}
-          event={event}
-          onUpdateEvent={handleUpdateEvent}
-          onDeleteEvent={handleDeleteEvent}
-        />
-      ))}
-    </ul>
+    <div className={classes.main__table}>
+      <div className={classes.main__head}>
+        <label className={classes.main__label}>
+          Show old events:{" "}
+          <input
+            className={classes.main__checkbox}
+            type="checkbox"
+            checked={showOldEvents}
+            onChange={() => setShowOldEvents(!showOldEvents)}
+          />
+        </label>
+        <button
+          className={classes.main__button}
+          onClick={() =>
+            handleCreateEvent({
+              name: "New event",
+              start: new Date().toString(),
+              end: new Date().toString(),
+            })
+          }
+        >
+          Add event
+        </button>
+      </div>
+      <ul className={classNames(classes.main__events, classes.events)}>
+        {events
+          .sort((prev, cur) => sortEvents(prev, cur))
+          .filter((event) => filterEvents(event))
+          .map((event) => (
+            <Event
+              key={event.id}
+              event={event}
+              onUpdateEvent={handleUpdateEvent}
+              onDeleteEvent={handleDeleteEvent}
+            />
+          ))}
+      </ul>
+    </div>
   );
 };
 

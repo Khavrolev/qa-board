@@ -1,40 +1,70 @@
 import classNames from "classnames";
-import { EventsData } from "../../pages/api/utils/airtable/Interfaces";
-import { isString } from "../../pages/api/utils/guards/Type";
 import DatePicker from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import classes from "./Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { FC } from "react";
+import { isString } from "../../utils/guards/Type";
+import { EventsData } from "../../utils/airtable/Interfaces";
+import { DateType } from "../../utils/enums/Event";
 
 interface DateProps {
   event: EventsData;
   onUpdateEvent: (event: EventsData) => void;
-  type: string;
+  type: DateType;
 }
 
 const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
-  const currentDate = event.fields[type.toLowerCase()];
+  const currentDate = event.fields[type];
+  const minDate =
+    type === DateType.End
+      ? new Date(isString(event.fields?.start) ? event.fields.start : "")
+      : undefined;
+  const maxDate =
+    type === DateType.Start
+      ? new Date(isString(event.fields?.end) ? event.fields.end : "")
+      : undefined;
+  const filterTime = (time: Date) => {
+    if (
+      type === DateType.Start &&
+      currentDate !== undefined &&
+      maxDate !== undefined
+    ) {
+      return time < maxDate;
+    }
+    if (
+      type === DateType.End &&
+      currentDate !== undefined &&
+      minDate !== undefined
+    ) {
+      return time > minDate;
+    }
+    return true;
+  };
 
   return (
     <div
       className={classNames(
         classes.dates__item,
-        classes[`dates__item_${type.toLowerCase()}`],
+        classes[`dates__item_${type}`],
       )}
     >
       <div className={classes.dates__desc}>{`${type}:`}</div>
       <DatePicker
         className={classes.dates__date}
-        selected={new Date(isString(currentDate) ? currentDate : "")}
+        selected={isString(currentDate) ? new Date(currentDate) : undefined}
+        withPortal
         showTimeSelect
         dateFormat="Pp"
         locale={ru}
+        filterTime={filterTime}
+        minDate={minDate}
+        maxDate={maxDate}
         onChange={(date) =>
           date &&
           onUpdateEvent({
             id: event.id,
-            fields: { ...event.fields, [type.toLowerCase()]: date.toString() },
+            fields: { ...event.fields, [type]: date.toString() },
           })
         }
       />

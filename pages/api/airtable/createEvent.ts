@@ -1,6 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getMinifiedRecord, tableEvents } from "../utils/airtable/Airtable";
-import { ErrorData, EventsData } from "../utils/airtable/Interfaces";
+import {
+  getMinifiedRecord,
+  tableEvents,
+} from "../../../utils/airtable/Airtable";
+import { ErrorData, EventsData } from "../../../utils/airtable/Interfaces";
 
 const handler = async (
   req: NextApiRequest,
