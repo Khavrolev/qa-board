@@ -63,6 +63,9 @@ const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
           type={DateType.End}
         />
       </div>
+      <div
+        className={classes.events__creator}
+      >{`Creator: ${user?.nickname}`}</div>
       <div className={classes.events__questions}>
         <div className={classes.events__qacounter}>
           {`Questions: ${

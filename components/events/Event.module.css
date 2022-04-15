@@ -47,9 +47,13 @@
   cursor: pointer;
 }
 
+.events__creator {
+  margin-top: 40px;
+}
+
 .events__questions {
   display: flex;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .events__qacounter:not(:last-child) {
