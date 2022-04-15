@@ -8,8 +8,10 @@ import { isArray, isString } from "../../utils/guards/Type";
 import { EventsData } from "../../utils/airtable/Interfaces";
 import { DateType } from "../../utils/enums/Event";
 import { useUser } from "@auth0/nextjs-auth0";
+import Image from "next/image";
 
 const DEBOUNCE_TIMEOUT = 1000;
+const HOT_TOPIC_AMOUNT = 10;
 
 interface EventProps {
   event: EventsData;
@@ -35,14 +37,14 @@ const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
       <div className={classes.events__title}>
         <input
           type="text"
-          disabled={!user}
+          disabled={user?.sub !== event.fields?.userId}
           className={classes.events__name}
           defaultValue={isString(event.fields.name) ? event.fields.name : ""}
           onChange={(event) => handleChangeName(event)}
         />
         {user?.sub === event.fields?.userId && (
           <button
-            className={classes.events__button}
+            className={classNames("button", classes.events__button)}
             onClick={() => onDeleteEvent(event.id)}
           >
             Delete
@@ -61,12 +63,24 @@ const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
           type={DateType.End}
         />
       </div>
-      <div className={classes.events__qacounter}>
-        {`Questions: ${
-          isArray<string>(event.fields.questions)
-            ? event.fields.questions?.length
-            : 0
-        }`}
+      <div className={classes.events__questions}>
+        <div className={classes.events__qacounter}>
+          {`Questions: ${
+            isArray<string>(event.fields.questions)
+              ? event.fields.questions?.length
+              : 0
+          }`}
+        </div>
+        {isArray<string>(event.fields.questions) &&
+          event.fields.questions?.length >= HOT_TOPIC_AMOUNT && (
+            <Image
+              className={classes.events__hot}
+              src="/img/hot_topic.png"
+              alt="comemnts"
+              width={16}
+              height={16}
+            />
+          )}
       </div>
     </li>
   );

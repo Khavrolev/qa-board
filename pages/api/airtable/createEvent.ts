@@ -9,7 +9,6 @@ import { ErrorData, EventsData } from "../../../utils/airtable/Interfaces";
 const handler = withApiAuthRequired(
   async (req: NextApiRequest, res: NextApiResponse<EventsData | ErrorData>) => {
     const session = getSession(req, res);
-    console.log(session);
     const { name, start, end } = req.body;
 
     try {

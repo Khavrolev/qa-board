@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import Head from "next/head";
 import { FC, ReactNode } from "react";
-import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import classes from "./Layout.module.css";
 
@@ -22,7 +21,6 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         <main className={classNames(classes.wrapper__main, classes.main)}>
           {children}
         </main>
-        <Footer />
       </div>
     </>
   );

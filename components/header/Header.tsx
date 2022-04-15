@@ -14,13 +14,17 @@ const Header = () => {
           <div className={classes.header__logged}>
             <div className={classes.header__name}>{user.email}</div>
             <Link href="/api/auth/logout">
-              <a className={classes.header__button}>Logout</a>
+              <a className={classNames("button", classes.header__button)}>
+                Logout
+              </a>
             </Link>
           </div>
         )}
         {!user && !isLoading && (
           <Link href="/api/auth/login">
-            <a className={classes.header__button}>Login</a>
+            <a className={classNames("button", classes.header__button)}>
+              Login
+            </a>
           </Link>
         )}
       </div>

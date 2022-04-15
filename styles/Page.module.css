@@ -27,20 +27,6 @@
   cursor: pointer;
 }
 
-.main__button {
-  padding: 5px 15px;
-  text-align: center;
-  min-width: 100px;
-  border: 3px solid #008000;
-  box-shadow: 10px 5px 5px #008000;
-  border-radius: 20%;
-  transition: background-color 0.3s ease 0s;
-}
-
-.main__button:hover {
-  background-color: #d3d3d3;
-}
-
 .main__events {
   margin-top: 20px;
 }

@@ -58,7 +58,7 @@ const Page = ({ initialEvents }: PageProps) => {
         </label>
         {user && (
           <button
-            className={classes.main__button}
+            className={classNames("button", classes.main__button)}
             onClick={() =>
               handleCreateEvent({
                 name: "New event",
