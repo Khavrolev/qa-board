@@ -1,5 +1,10 @@
 import { ReactElement, useState } from "react";
-import { UserProvider } from "@auth0/nextjs-auth0";
+import {
+  getAccessToken,
+  getSession,
+  UserProvider,
+  useUser,
+} from "@auth0/nextjs-auth0";
 import Layout from "../components/layout/Layout";
 import { GetServerSideProps } from "next";
 import Event from "../components/events/Event";
@@ -16,6 +21,7 @@ interface PageProps {
 }
 
 const Page = ({ initialEvents }: PageProps) => {
+  const { user } = useUser();
   const { events, handleCreateEvent, handleUpdateEvent, handleDeleteEvent } =
     useEvents(initialEvents);
   const [showOldEvents, setShowOldEvents] = useState(false);
@@ -39,7 +45,7 @@ const Page = ({ initialEvents }: PageProps) => {
   };
 
   return (
-    <div className={classes.main__table}>
+    <>
       <div className={classes.main__head}>
         <label className={classes.main__label}>
           Show old events:{" "}
@@ -50,18 +56,20 @@ const Page = ({ initialEvents }: PageProps) => {
             onChange={() => setShowOldEvents(!showOldEvents)}
           />
         </label>
-        <button
-          className={classes.main__button}
-          onClick={() =>
-            handleCreateEvent({
-              name: "New event",
-              start: new Date().toString(),
-              end: new Date().toString(),
-            })
-          }
-        >
-          Add event
-        </button>
+        {user && (
+          <button
+            className={classes.main__button}
+            onClick={() =>
+              handleCreateEvent({
+                name: "New event",
+                start: new Date().toString(),
+                end: new Date().toString(),
+              })
+            }
+          >
+            Add event
+          </button>
+        )}
       </div>
       <ul className={classNames(classes.main__events, classes.events)}>
         {events
@@ -76,7 +84,7 @@ const Page = ({ initialEvents }: PageProps) => {
             />
           ))}
       </ul>
-    </div>
+    </>
   );
 };
 
@@ -88,7 +96,7 @@ Page.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const events = await tableEvents.select().firstPage();
     return {

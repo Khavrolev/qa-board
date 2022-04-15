@@ -7,6 +7,7 @@ import { FC } from "react";
 import { isString } from "../../utils/guards/Type";
 import { EventsData } from "../../utils/airtable/Interfaces";
 import { DateType } from "../../utils/enums/Event";
+import { useUser } from "@auth0/nextjs-auth0";
 
 interface DateProps {
   event: EventsData;
@@ -15,6 +16,8 @@ interface DateProps {
 }
 
 const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
+  const { user } = useUser();
+
   const currentDate = event.fields[type];
   const minDate =
     type === DateType.End
@@ -52,6 +55,7 @@ const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
       <div className={classes.dates__desc}>{`${type}:`}</div>
       <DatePicker
         className={classes.dates__date}
+        disabled={user?.sub !== event.fields?.userId}
         selected={isString(currentDate) ? new Date(currentDate) : undefined}
         withPortal
         showTimeSelect

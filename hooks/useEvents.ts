@@ -20,7 +20,6 @@ export const useEvents = (initialEvents: EventsData[]) => {
   };
 
   const handleUpdateEvent = useCallback(async (event: EventsData) => {
-    console.log(event);
     try {
       const updatedEvent = await fetchUpdateEvent(event);
       setEvents((prevEvents) =>

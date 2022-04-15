@@ -5,6 +5,7 @@
 
 .main__head {
   padding: 0 20px;
+  min-height: 50px;
   display: flex;
   align-items: center;
 }
