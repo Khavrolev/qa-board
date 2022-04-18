@@ -1,0 +1,50 @@
+.header {
+  margin: 0 -10px;
+  padding: 10px;
+  background-color: rgb(20, 19, 19);
+  color: #dedede;
+}
+
+.header__title {
+  font-size: 30px;
+  align-self: center;
+  text-align: right;
+}
+
+.header__buttons {
+  margin-top: 15px;
+}
+
+.header__button {
+  margin-right: auto;
+}
+
+.header__nickname {
+  align-self: center;
+  font-size: 18px;
+}
+
+.header__logged {
+  display: flex;
+}
+
+@media (min-width: 568px) {
+  .header {
+    padding: 30px 10px 30px 40px;
+    display: flex;
+  }
+
+  .header__buttons {
+    margin-top: 0;
+    margin-left: auto;
+  }
+
+  .header__nickname {
+    font-size: 25px;
+    margin-right: 20px;
+  }
+
+  .header__logged {
+    flex-direction: row-reverse;
+  }
+}

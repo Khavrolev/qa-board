@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 10px;
+  padding: 0 10px;
   width: 100%;
   min-height: 100%;
   box-sizing: border-box;
@@ -9,9 +9,15 @@
 }
 
 .wrapper__main {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .main {
   flex: 1;
+}
+
+@media (min-width: 568px) {
+  .wrapper__main {
+    margin-top: 30px;
+  }
 }

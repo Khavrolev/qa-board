@@ -1,26 +1,21 @@
 import { ReactElement, useState } from "react";
-import {
-  getAccessToken,
-  getSession,
-  UserProvider,
-  useUser,
-} from "@auth0/nextjs-auth0";
+import { UserProvider, useUser } from "@auth0/nextjs-auth0";
 import Layout from "../components/layout/Layout";
 import { GetServerSideProps } from "next";
 import Event from "../components/events/Event";
-import classes from "../styles/Page.module.css";
+import classes from "../styles/Events.module.css";
 import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
 import { isString } from "../utils/guards/Type";
 import { getMinifiedRecords, tableEvents } from "../utils/airtable/Airtable";
 import { EventsData } from "../utils/airtable/Interfaces";
 
-interface PageProps {
+interface EventsProps {
   initialEvents: EventsData[];
   error: string;
 }
 
-const Page = ({ initialEvents }: PageProps) => {
+const Events = ({ initialEvents }: EventsProps) => {
   const { user } = useUser();
   const { events, handleCreateEvent, handleUpdateEvent, handleDeleteEvent } =
     useEvents(initialEvents);
@@ -88,7 +83,7 @@ const Page = ({ initialEvents }: PageProps) => {
   );
 };
 
-Page.getLayout = function getLayout(page: ReactElement) {
+Events.getLayout = function getLayout(page: ReactElement) {
   return (
     <UserProvider>
       <Layout>{page}</Layout>
@@ -114,4 +109,4 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 };
 
-export default Page;
+export default Events;

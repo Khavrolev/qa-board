@@ -13,7 +13,15 @@ const handler = withApiAuthRequired(
 
     try {
       const createdRecords = await tableEvents.create([
-        { fields: { name, start, end, userId: session?.user?.sub } },
+        {
+          fields: {
+            name,
+            start,
+            end,
+            userId: session?.user?.sub,
+            userName: session?.user?.nickname,
+          },
+        },
       ]);
       const createdRecord = getMinifiedRecord(createdRecords[0]);
       res.status(200).json(createdRecord);

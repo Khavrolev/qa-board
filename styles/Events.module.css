@@ -3,9 +3,12 @@
   flex-direction: column;
 }
 
+.main__events {
+  margin-top: 10px;
+}
+
 .main__head {
-  padding: 0 20px;
-  min-height: 50px;
+  padding: 0 0 0 10px;
   display: flex;
   align-items: center;
 }
@@ -27,6 +30,12 @@
   cursor: pointer;
 }
 
-.main__events {
-  margin-top: 20px;
+@media (min-width: 568px) {
+  .main__events {
+    margin-top: 30px;
+  }
+
+  .main__head {
+    padding: 0 0 0 30px;
+  }
 }

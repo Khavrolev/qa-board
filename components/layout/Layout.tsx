@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Head from "next/head";
 import { FC, ReactNode } from "react";
 import Header from "../header/Header";
-import classes from "./Layout.module.css";
+import classes from "../../styles/Layout.module.css";
 
 interface LayoutProps {
   children: ReactNode;

@@ -40,7 +40,7 @@ body {
   margin: 0;
   height: 100%;
   line-height: 1;
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 400;
   color: #000000;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
@@ -61,7 +61,7 @@ button {
 
 .button {
   background-color: #fafbfc;
-  min-width: 100px;
+  min-width: 50px;
   text-align: center;
   border: 1px solid #1b1f2326;
   border-radius: 6px;
@@ -97,10 +97,21 @@ button {
   outline: 1px transparent;
 }
 
-input {
+input,
+textarea {
   all: unset;
 }
 
 #__next {
   height: 100%;
+}
+
+@media (min-width: 568px) {
+  body {
+    font-size: 20px;
+  }
+
+  .button {
+    min-width: 100px;
+  }
 }
