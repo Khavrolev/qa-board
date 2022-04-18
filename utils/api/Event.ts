@@ -1,10 +1,10 @@
 import { FieldSet } from "airtable";
 import axios from "axios";
-import { EventsData } from "../airtable/Interfaces";
+import { EventData } from "../airtable/Interfaces";
 
 export const fetchCreateEvent = async (event: FieldSet) => {
   const { name, start, end } = event;
-  const res = await axios.post("api/airtable/createEvent", {
+  const res = await axios.post("api/airtable/Events/createEvent", {
     name,
     start,
     end,
@@ -13,9 +13,9 @@ export const fetchCreateEvent = async (event: FieldSet) => {
   return res.data;
 };
 
-export const fetchUpdateEvent = async (event: EventsData) => {
+export const fetchUpdateEvent = async (event: EventData) => {
   const { id, fields } = event;
-  const res = await axios.put("api/airtable/updateEvent", {
+  const res = await axios.put("api/airtable/Events/updateEvent", {
     id,
     fields,
   });
@@ -24,7 +24,7 @@ export const fetchUpdateEvent = async (event: EventsData) => {
 };
 
 export const fetchDeleteEvent = async (id: string) => {
-  const res = await axios.delete(`api/airtable/deleteEvent?id=${id}`);
+  const res = await axios.delete(`api/airtable/Events/deleteEvent?id=${id}`);
 
   return res.data;
 };

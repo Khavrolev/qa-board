@@ -3,11 +3,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
   getMinifiedRecord,
   tableEvents,
-} from "../../../utils/airtable/Airtable";
-import { ErrorData, EventsData } from "../../../utils/airtable/Interfaces";
+} from "../../../../utils/airtable/Airtable";
+import { ErrorData, EventData } from "../../../../utils/airtable/Interfaces";
 
 const handler = withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse<EventsData | ErrorData>) => {
+  async (req: NextApiRequest, res: NextApiResponse<EventData | ErrorData>) => {
     const session = getSession(req, res);
     const { name, start, end } = req.body;
 

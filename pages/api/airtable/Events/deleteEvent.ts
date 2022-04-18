@@ -3,12 +3,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
   getMinifiedRecord,
   tableEvents,
-} from "../../../utils/airtable/Airtable";
-import { ErrorData, EventsData } from "../../../utils/airtable/Interfaces";
-import { isString } from "../../../utils/guards/Type";
+} from "../../../../utils/airtable/Airtable";
+import { ErrorData, EventData } from "../../../../utils/airtable/Interfaces";
+import { isString } from "../../../../utils/guards/Type";
 
 const handler = withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse<EventsData | ErrorData>) => {
+  async (req: NextApiRequest, res: NextApiResponse<EventData | ErrorData>) => {
     const { id } = req.query;
 
     try {

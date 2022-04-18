@@ -1,13 +1,13 @@
 import { FieldSet } from "airtable";
 import { useCallback, useState } from "react";
-import { EventsData } from "../utils/airtable/Interfaces";
+import { EventData } from "../utils/airtable/Interfaces";
 import {
   fetchCreateEvent,
   fetchDeleteEvent,
   fetchUpdateEvent,
 } from "../utils/api/Event";
 
-export const useEvents = (initialEvents: EventsData[]) => {
+export const useEvents = (initialEvents: EventData[]) => {
   const [events, setEvents] = useState(initialEvents);
 
   const handleCreateEvent = async (event: FieldSet) => {
@@ -19,7 +19,7 @@ export const useEvents = (initialEvents: EventsData[]) => {
     }
   };
 
-  const handleUpdateEvent = useCallback(async (event: EventsData) => {
+  const handleUpdateEvent = useCallback(async (event: EventData) => {
     try {
       const updatedEvent = await fetchUpdateEvent(event);
       setEvents((prevEvents) =>

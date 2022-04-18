@@ -8,7 +8,9 @@ const Header = () => {
   console.log(user);
   return (
     <header className={classNames(classes.wrapper__header, classes.header)}>
-      <div className={classes.header__title}>QA board</div>
+      <Link href={`/`}>
+        <a className={classes.header__title}>QA board</a>
+      </Link>
       <div className={classes.header__buttons}>
         {user && !isLoading && (
           <div className={classes.header__logged}>

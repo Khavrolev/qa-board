@@ -5,13 +5,13 @@ import classes from "../../styles/Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { FC } from "react";
 import { isString } from "../../utils/guards/Type";
-import { EventsData } from "../../utils/airtable/Interfaces";
+import { EventData } from "../../utils/airtable/Interfaces";
 import { DateType } from "../../utils/enums/Event";
 import { useUser } from "@auth0/nextjs-auth0";
 
 interface DateProps {
-  event: EventsData;
-  onUpdateEvent: (event: EventsData) => void;
+  event: EventData;
+  onUpdateEvent: (event: EventData) => void;
   type: DateType;
 }
 
@@ -19,6 +19,7 @@ const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
   const { user } = useUser();
 
   const currentDate = event.fields[type];
+  const changeable = user?.sub === event.fields?.userId;
   const minDate =
     type === DateType.End
       ? new Date(isString(event.fields?.start) ? event.fields.start : "")
@@ -51,12 +52,13 @@ const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
         classes.dates__item,
         classes[`dates__item_${type}`],
       )}
+      onClick={(clickEvent) => clickEvent.stopPropagation()}
     >
       <div className={classes.dates__desc}>{`${type}:`}</div>
       <DatePicker
-        className={classes.dates__date}
+        className={classNames({ [classes.dates__date]: !changeable })}
         calendarClassName={classes.dates__calendar}
-        disabled={user?.sub !== event.fields?.userId}
+        disabled={!changeable}
         selected={isString(currentDate) ? new Date(currentDate) : undefined}
         withPortal
         showTimeSelect

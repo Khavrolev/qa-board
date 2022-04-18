@@ -3,6 +3,12 @@
   position: relative;
   border: 3px solid #000000;
   box-shadow: 10px 5px 5px #393c3c;
+  cursor: pointer;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+}
+
+.events__item:hover {
+  background-color: #d1d1d1;
 }
 
 .events__item:not(:first-child) {
@@ -17,7 +23,7 @@
 }
 
 .events__name {
-  min-width: 100%;
+  min-width: 95%;
   font-size: 15px;
   font-weight: bold;
   flex: 1;
@@ -44,6 +50,7 @@
   margin-right: 10px;
   min-width: 50px;
   text-transform: capitalize;
+  cursor: default;
 }
 
 .dates__calendar {
@@ -51,16 +58,18 @@
 }
 
 .dates__date:hover {
-  cursor: pointer;
+  cursor: default;
 }
 
 .events__creator {
   margin-top: 15px;
+  display: flex;
+  font-weight: bold;
 }
 
 .events__questions {
-  display: flex;
   margin-top: 5px;
+  display: flex;
 }
 
 .events__qacounter:not(:last-child) {

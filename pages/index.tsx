@@ -8,10 +8,10 @@ import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
 import { isString } from "../utils/guards/Type";
 import { getMinifiedRecords, tableEvents } from "../utils/airtable/Airtable";
-import { EventsData } from "../utils/airtable/Interfaces";
+import { EventData } from "../utils/airtable/Interfaces";
 
 interface EventsProps {
-  initialEvents: EventsData[];
+  initialEvents: EventData[];
   error: string;
 }
 
@@ -21,7 +21,7 @@ const Events = ({ initialEvents }: EventsProps) => {
     useEvents(initialEvents);
   const [showOldEvents, setShowOldEvents] = useState(false);
 
-  const sortEvents = (prev: EventsData, cur: EventsData) => {
+  const sortEvents = (prev: EventData, cur: EventData) => {
     if (isString(prev.fields?.start) && isString(cur.fields?.start)) {
       return new Date(prev.fields.start) >= new Date(cur.fields?.start)
         ? 1
@@ -30,7 +30,7 @@ const Events = ({ initialEvents }: EventsProps) => {
     return 0;
   };
 
-  const filterEvents = (event: EventsData) => {
+  const filterEvents = (event: EventData) => {
     if (isString(event.fields?.end) && !showOldEvents) {
       return (
         new Date(event.fields.end) >= new Date(new Date().setHours(0, 0, 0, 0))
@@ -84,11 +84,7 @@ const Events = ({ initialEvents }: EventsProps) => {
 };
 
 Events.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <UserProvider>
-      <Layout>{page}</Layout>
-    </UserProvider>
-  );
+  return <Layout>{page}</Layout>;
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {

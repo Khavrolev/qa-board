@@ -1,6 +1,6 @@
 import { FieldSet } from "airtable";
 
-export interface EventsData {
+export interface EventData {
   id: string;
   fields: FieldSet;
 }
