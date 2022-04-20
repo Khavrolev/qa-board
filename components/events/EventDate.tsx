@@ -5,28 +5,28 @@ import classes from "../../styles/Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { FC } from "react";
 import { isString } from "../../utils/guards/Type";
-import { EventData } from "../../utils/airtable/Interfaces";
 import { DateType } from "../../utils/enums/Event";
 import { useUser } from "@auth0/nextjs-auth0";
+import { EventDB } from "@prisma/client";
 
 interface DateProps {
-  event: EventData;
-  onUpdateEvent: (event: EventData) => void;
+  event: EventDB;
+  onUpdateEvent: (event: EventDB) => void;
   type: DateType;
 }
 
 const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
   const { user } = useUser();
 
-  const currentDate = event.fields[type];
-  const changeable = user?.sub === event.fields?.userId;
+  const currentDate = event[type];
+  const changeable = user?.sub === event.userId;
   const minDate =
     type === DateType.End
-      ? new Date(isString(event.fields?.start) ? event.fields.start : "")
+      ? new Date(isString(event.start) ? event.start : "")
       : undefined;
   const maxDate =
     type === DateType.Start
-      ? new Date(isString(event.fields?.end) ? event.fields.end : "")
+      ? new Date(isString(event.end) ? event.end : "")
       : undefined;
   const filterTime = (time: Date) => {
     if (
@@ -67,13 +67,7 @@ const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
         filterTime={filterTime}
         minDate={minDate}
         maxDate={maxDate}
-        onChange={(date) =>
-          date &&
-          onUpdateEvent({
-            id: event.id,
-            fields: { ...event.fields, [type]: date.toString() },
-          })
-        }
+        onChange={(date) => date && onUpdateEvent({ ...event, [type]: date })}
       />
     </div>
   );

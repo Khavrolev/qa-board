@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Header = () => {
   const { user, isLoading } = useUser();
-  console.log(user);
+
   return (
     <header className={classNames(classes.wrapper__header, classes.header)}>
       <Link href={`/`}>

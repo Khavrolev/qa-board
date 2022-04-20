@@ -4,11 +4,14 @@ import {
   getMinifiedRecord,
   tableEvents,
 } from "../../../../utils/airtable/Airtable";
-import { ErrorData, EventData } from "../../../../utils/airtable/Interfaces";
+import { ErrorData, AirtableData } from "../../../../utils/airtable/Interfaces";
 import { isString } from "../../../../utils/guards/Type";
 
 const handler = withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse<EventData | ErrorData>) => {
+  async (
+    req: NextApiRequest,
+    res: NextApiResponse<AirtableData | ErrorData>,
+  ) => {
     const { id } = req.query;
 
     try {

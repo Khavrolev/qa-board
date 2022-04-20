@@ -4,10 +4,13 @@ import {
   getMinifiedRecord,
   tableEvents,
 } from "../../../../utils/airtable/Airtable";
-import { ErrorData, EventData } from "../../../../utils/airtable/Interfaces";
+import { ErrorData, AirtableData } from "../../../../utils/airtable/Interfaces";
 
 const handler = withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse<EventData | ErrorData>) => {
+  async (
+    req: NextApiRequest,
+    res: NextApiResponse<AirtableData | ErrorData>,
+  ) => {
     const { id, fields } = req.body;
 
     try {

@@ -1,43 +1,39 @@
 import { ReactElement, useState } from "react";
-import { UserProvider, useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0";
 import Layout from "../components/layout/Layout";
 import { GetServerSideProps } from "next";
 import Event from "../components/events/Event";
 import classes from "../styles/Events.module.css";
 import classNames from "classnames";
-import { useEvents } from "../hooks/useEvents";
+import { useEvents } from "../hooks/useData";
 import { isString } from "../utils/guards/Type";
-import { getMinifiedRecords, tableEvents } from "../utils/airtable/Airtable";
-import { EventData } from "../utils/airtable/Interfaces";
+import prisma from "../utils/prisma/prisma";
+import { EventDB, QuestionDB } from "@prisma/client";
 
 interface EventsProps {
-  initialEvents: EventData[];
+  initialEvents: (EventDB & {
+    questions: QuestionDB[];
+  })[];
   error: string;
 }
 
 const Events = ({ initialEvents }: EventsProps) => {
   const { user } = useUser();
-  const { events, handleCreateEvent, handleUpdateEvent, handleDeleteEvent } =
-    useEvents(initialEvents);
+  const {
+    data: events,
+    handleCreateData: handleCreateEvent,
+    handleUpdateData: handleUpdateEvent,
+    handleDeleteData: handleDeleteEvent,
+  } = useEvents(initialEvents);
   const [showOldEvents, setShowOldEvents] = useState(false);
 
-  const sortEvents = (prev: EventData, cur: EventData) => {
-    if (isString(prev.fields?.start) && isString(cur.fields?.start)) {
-      return new Date(prev.fields.start) >= new Date(cur.fields?.start)
-        ? 1
-        : -1;
-    }
-    return 0;
-  };
-
-  const filterEvents = (event: EventData) => {
-    if (isString(event.fields?.end) && !showOldEvents) {
-      return (
-        new Date(event.fields.end) >= new Date(new Date().setHours(0, 0, 0, 0))
-      );
+  const filterEvents = (event: EventDB) => {
+    if (isString(event.end) && !showOldEvents) {
+      return new Date(event.end) >= new Date(new Date().setHours(0, 0, 0, 0));
     }
     return true;
   };
+  console.log(events);
 
   return (
     <>
@@ -57,8 +53,8 @@ const Events = ({ initialEvents }: EventsProps) => {
             onClick={() =>
               handleCreateEvent({
                 name: "New event",
-                start: new Date().toString(),
-                end: new Date().toString(),
+                start: new Date(),
+                end: new Date(),
               })
             }
           >
@@ -68,12 +64,12 @@ const Events = ({ initialEvents }: EventsProps) => {
       </div>
       <ul className={classNames(classes.main__events, classes.events)}>
         {events
-          .sort((prev, cur) => sortEvents(prev, cur))
           .filter((event) => filterEvents(event))
           .map((event) => (
             <Event
               key={event.id}
               event={event}
+              firstPage={true}
               onUpdateEvent={handleUpdateEvent}
               onDeleteEvent={handleDeleteEvent}
             />
@@ -89,10 +85,13 @@ Events.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const events = await tableEvents.select().firstPage();
+    const events = await prisma.eventDB.findMany({
+      include: { questions: true },
+      orderBy: { end: "asc" },
+    });
     return {
       props: {
-        initialEvents: getMinifiedRecords(events),
+        initialEvents: JSON.parse(JSON.stringify(events)),
       },
     };
   } catch (error) {

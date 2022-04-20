@@ -5,44 +5,51 @@ import EventDate from "./EventDate";
 import { ChangeEvent, FC, MouseEvent } from "react";
 import debounce from "lodash.debounce";
 import { isArray, isString } from "../../utils/guards/Type";
-import { EventData } from "../../utils/airtable/Interfaces";
 import { DateType } from "../../utils/enums/Event";
 import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import Link from "next/link";
+import { EventDB, QuestionDB } from "@prisma/client";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
 
 interface EventProps {
-  event: EventData;
-  onUpdateEvent: (event: EventData) => void;
-  onDeleteEvent: (id: string) => void;
+  event: EventDB & {
+    questions: QuestionDB[];
+  };
+  firstPage: boolean;
+  onUpdateEvent: (event: EventDB) => void;
+  onDeleteEvent?: (id: string) => void;
 }
 
-const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
+const Event: FC<EventProps> = ({
+  event,
+  firstPage,
+  onUpdateEvent,
+  onDeleteEvent,
+}) => {
   const { user } = useUser();
 
   const handleChangeName = debounce(
     (changeEvent: ChangeEvent<HTMLTextAreaElement>) => {
-      onUpdateEvent({
-        id: event.id,
-        fields: { ...event.fields, name: changeEvent.target.value },
-      });
+      onUpdateEvent({ ...event, name: changeEvent.target.value });
     },
     DEBOUNCE_TIMEOUT,
   );
 
   const handleDeleteEvent = (clickEvent: MouseEvent<HTMLButtonElement>) => {
     clickEvent.stopPropagation();
-    onDeleteEvent(event.id);
+    if (onDeleteEvent !== undefined) {
+      onDeleteEvent(event.id);
+    }
   };
 
   return (
-    <Link href={`/${event.id}`} passHref>
+    <Link href={firstPage ? `/${event.id}` : `#`} passHref>
       <li className={classes.events__item}>
-        {user?.sub === event.fields?.userId && (
+        {user?.sub === event.userId && firstPage && (
           <button
             className={classNames("button", classes.events__button)}
             onClick={handleDeleteEvent}
@@ -56,9 +63,9 @@ const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
           </button>
         )}
         <ReactTextareaAutosize
-          disabled={user?.sub !== event.fields?.userId}
+          disabled={user?.sub !== event.userId}
           className={classes.events__name}
-          defaultValue={isString(event.fields.name) ? event.fields.name : ""}
+          defaultValue={isString(event.name) ? event.name : ""}
           onClick={(clickEvent) => clickEvent.stopPropagation()}
           onChange={handleChangeName}
         />
@@ -76,25 +83,20 @@ const Event: FC<EventProps> = ({ event, onUpdateEvent, onDeleteEvent }) => {
         </div>
         <div
           className={classes.events__creator}
-        >{`Creator: ${event?.fields.userName}`}</div>
+        >{`Creator: ${event.userName}`}</div>
         <div className={classes.events__questions}>
           <div className={classes.events__qacounter}>
-            {`Questions: ${
-              isArray<string>(event.fields.questions)
-                ? event.fields.questions?.length
-                : 0
-            }`}
+            {`Questions: ${event.questions.length}`}
           </div>
-          {isArray<string>(event.fields.questions) &&
-            event.fields.questions?.length >= HOT_TOPIC_AMOUNT && (
-              <Image
-                className={classes.events__hot}
-                src="/img/hot_topic.png"
-                alt="comemnts"
-                width={16}
-                height={16}
-              />
-            )}
+          {event.questions.length >= HOT_TOPIC_AMOUNT && (
+            <Image
+              className={classes.events__hot}
+              src="/img/hot_topic.png"
+              alt="comemnts"
+              width={16}
+              height={16}
+            />
+          )}
         </div>
       </li>
     </Link>
