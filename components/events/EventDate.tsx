@@ -9,17 +9,20 @@ import { DateType } from "../../utils/enums/Event";
 import { useUser } from "@auth0/nextjs-auth0";
 import { EventDB } from "@prisma/client";
 
-interface DateProps {
+interface EventDateProps {
   event: EventDB;
   onUpdateEvent: (event: EventDB) => void;
   type: DateType;
+  changeable: boolean;
 }
 
-const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
-  const { user } = useUser();
-
+const EventDate: FC<EventDateProps> = ({
+  event,
+  onUpdateEvent,
+  type,
+  changeable,
+}) => {
   const currentDate = event[type];
-  const changeable = user?.sub === event.userId;
   const minDate =
     type === DateType.End
       ? new Date(isString(event.start) ? event.start : "")
@@ -56,7 +59,9 @@ const EventDate: FC<DateProps> = ({ event, onUpdateEvent, type }) => {
     >
       <div className={classes.dates__desc}>{`${type}:`}</div>
       <DatePicker
-        className={classNames({ [classes.dates__date]: !changeable })}
+        className={classNames(classes.dates__date, {
+          [classes.dates__date_disabled]: !changeable,
+        })}
         calendarClassName={classes.dates__calendar}
         disabled={!changeable}
         selected={isString(currentDate) ? new Date(currentDate) : undefined}

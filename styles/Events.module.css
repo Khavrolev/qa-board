@@ -26,8 +26,18 @@
   padding: initial;
   border: initial;
 }
+
 .main__checkbox:hover {
   cursor: pointer;
+}
+
+.events__link {
+  cursor: pointer;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+}
+
+.events__link:hover {
+  background-color: #d1d1d1;
 }
 
 @media (min-width: 568px) {

@@ -9,6 +9,7 @@ import { useEvents } from "../hooks/useData";
 import { isString } from "../utils/guards/Type";
 import prisma from "../utils/prisma/prisma";
 import { EventDB, QuestionDB } from "@prisma/client";
+import Link from "next/link";
 
 interface EventsProps {
   initialEvents: (EventDB & {
@@ -33,7 +34,6 @@ const Events = ({ initialEvents }: EventsProps) => {
     }
     return true;
   };
-  console.log(events);
 
   return (
     <>
@@ -66,13 +66,16 @@ const Events = ({ initialEvents }: EventsProps) => {
         {events
           .filter((event) => filterEvents(event))
           .map((event) => (
-            <Event
-              key={event.id}
-              event={event}
-              firstPage={true}
-              onUpdateEvent={handleUpdateEvent}
-              onDeleteEvent={handleDeleteEvent}
-            />
+            <Link key={event.id} href={`/${event.id}`} passHref>
+              <li className={classes.events__link}>
+                <Event
+                  event={event}
+                  firstPage={true}
+                  onUpdateEvent={handleUpdateEvent}
+                  onDeleteEvent={handleDeleteEvent}
+                />
+              </li>
+            </Link>
           ))}
       </ul>
     </>

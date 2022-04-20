@@ -3,12 +3,6 @@
   position: relative;
   border: 3px solid #000000;
   box-shadow: 10px 5px 5px #393c3c;
-  cursor: pointer;
-  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-}
-
-.events__item:hover {
-  background-color: #d1d1d1;
 }
 
 .events__item:not(:first-child) {
@@ -27,6 +21,7 @@
   font-size: 15px;
   font-weight: bold;
   flex: 1;
+  cursor: pointer;
 }
 
 .events__name:focus {
@@ -57,7 +52,11 @@
   display: flex;
 }
 
-.dates__date:hover {
+.dates__date {
+  cursor: pointer;
+}
+
+.dates__date_disabled {
   cursor: default;
 }
 

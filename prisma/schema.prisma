@@ -23,6 +23,8 @@ model QuestionDB {
   id        String   @id @default(uuid()) @db.Uuid
   userId    String
   userName  String
+  createdAt DateTime @default(now())
+  likes     Int      @default(0)
   event_id  String   @db.Uuid
   event     EventDB  @relation(fields: [event_id], references: [id])
 
