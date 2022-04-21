@@ -13,7 +13,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <UserProvider>
       <Head>
-        <title>QA Board</title>
+        <title>Q&A Board</title>
         <meta name="description" content="QA Board" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

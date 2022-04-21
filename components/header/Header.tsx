@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <header className={classNames(classes.wrapper__header, classes.header)}>
       <Link href={`/`}>
-        <a className={classes.header__title}>QA board</a>
+        <a className={classes.header__title}>Q&A board</a>
       </Link>
       <div className={classes.header__buttons}>
         {user && !isLoading && (

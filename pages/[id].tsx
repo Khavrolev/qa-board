@@ -3,29 +3,37 @@ import { EventDB, QuestionDB } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { ReactElement } from "react";
 import Event from "../components/events/Event";
+import classes from "../styles/Questions.module.css";
 import Layout from "../components/layout/Layout";
 import prisma from "../utils/prisma/prisma";
-import { useEvents } from "../hooks/useData";
 import { isString } from "../utils/guards/Type";
+import { useEvent } from "../hooks/useEvent";
+import classNames from "classnames";
+import Question from "../components/questions/Question";
 
 interface QuestionsProps {
-  initialEvents: (EventDB & {
+  initialEvent: EventDB & {
     questions: QuestionDB[];
-  })[];
+  };
 }
 
-const Questions = ({ initialEvents }: QuestionsProps) => {
+const Questions = ({ initialEvent }: QuestionsProps) => {
   const { user } = useUser();
-  const { data: events, handleUpdateData: handleUpdateEvent } =
-    useEvents(initialEvents);
-
+  const { event, handleUpdateEvent } = useEvent(initialEvent);
+  console.log(event);
   return (
     <>
       <Event
-        event={events[0]}
+        event={{ ...event, _count: { questions: event.questions.length } }}
         firstPage={false}
         onUpdateEvent={handleUpdateEvent}
       />
+      <h3 className={classes.main__title}>Questions</h3>
+      <ul className={classNames(classes.main__questions, classes.questions)}>
+        {event.questions.map((question) => (
+          <Question key={question.id} question={question} />
+        ))}
+      </ul>
     </>
   );
 };
@@ -52,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     return {
       props: {
-        initialEvents: JSON.parse(JSON.stringify([event])),
+        initialEvent: JSON.parse(JSON.stringify(event)),
       },
     };
   } catch (error) {

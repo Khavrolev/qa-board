@@ -9,7 +9,9 @@ const handler = withApiAuthRequired(
     req: NextApiRequest,
     res: NextApiResponse<
       | (EventDB & {
-          questions: QuestionDB[];
+          _count: {
+            questions: number;
+          };
         })
       | ErrorData
     >,
@@ -26,7 +28,7 @@ const handler = withApiAuthRequired(
           userId: session?.user?.sub,
           userName: session?.user?.nickname,
         },
-        include: { questions: true },
+        include: { _count: { select: { questions: true } } },
       });
       res.status(200).json(createdRecord);
     } catch (error) {

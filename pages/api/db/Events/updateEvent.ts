@@ -9,19 +9,25 @@ const handler = withApiAuthRequired(
     req: NextApiRequest,
     res: NextApiResponse<
       | (EventDB & {
+          _count: {
+            questions: number;
+          };
           questions: QuestionDB[];
         })
       | ErrorData
     >,
   ) => {
-    const { id, name, start, end } = req.body;
+    const { id, name, start, end, includeQuestions } = req.body;
 
     try {
-      const updatedRecord = await prisma.eventDB.update({
+      const options = {
         where: { id },
         data: { name, start, end },
-        include: { questions: true },
-      });
+        include: includeQuestions
+          ? { questions: true }
+          : { _count: { select: { questions: true } } },
+      };
+      const updatedRecord = await prisma.eventDB.update(options);
       res.status(200).json(updatedRecord);
     } catch (error) {
       res.status(500).json({ message: "Ooops! Something went wrong" });

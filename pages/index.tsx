@@ -5,27 +5,25 @@ import { GetServerSideProps } from "next";
 import Event from "../components/events/Event";
 import classes from "../styles/Events.module.css";
 import classNames from "classnames";
-import { useEvents } from "../hooks/useData";
+import { useEvents } from "../hooks/useEvents";
 import { isString } from "../utils/guards/Type";
 import prisma from "../utils/prisma/prisma";
-import { EventDB, QuestionDB } from "@prisma/client";
+import { EventDB } from "@prisma/client";
 import Link from "next/link";
 
 interface EventsProps {
   initialEvents: (EventDB & {
-    questions: QuestionDB[];
+    _count: {
+      questions: number;
+    };
   })[];
   error: string;
 }
 
 const Events = ({ initialEvents }: EventsProps) => {
   const { user } = useUser();
-  const {
-    data: events,
-    handleCreateData: handleCreateEvent,
-    handleUpdateData: handleUpdateEvent,
-    handleDeleteData: handleDeleteEvent,
-  } = useEvents(initialEvents);
+  const { events, handleCreateEvent, handleUpdateEvent, handleDeleteEvent } =
+    useEvents(initialEvents);
   const [showOldEvents, setShowOldEvents] = useState(false);
 
   const filterEvents = (event: EventDB) => {
@@ -89,7 +87,7 @@ Events.getLayout = function getLayout(page: ReactElement) {
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const events = await prisma.eventDB.findMany({
-      include: { questions: true },
+      include: { _count: { select: { questions: true } } },
       orderBy: { end: "asc" },
     });
     return {

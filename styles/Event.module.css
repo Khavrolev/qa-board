@@ -5,10 +5,6 @@
   box-shadow: 10px 5px 5px #393c3c;
 }
 
-.events__item:not(:first-child) {
-  margin-top: 10px;
-}
-
 .events__button {
   position: absolute;
   min-width: auto;
@@ -49,7 +45,7 @@
 }
 
 .dates__calendar {
-  display: flex;
+  display: flex !important;
 }
 
 .dates__date {

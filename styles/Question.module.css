@@ -1,0 +1,36 @@
+.question__item {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #dddddd;
+}
+
+.question__item:not(:first-child) {
+  margin-top: 10px;
+}
+
+.question__username {
+  font-weight: bold;
+  color: #dbb262;
+}
+
+.question__text {
+  margin-top: 10px;
+}
+
+.question__bottom {
+  margin-top: 20px;
+  display: flex;
+}
+
+.question__time {
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.question__left {
+  margin-left: 5px;
+  font-size: 11px;
+  color: #888888;
+}

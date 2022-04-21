@@ -9,17 +9,19 @@ import { DateType } from "../../utils/enums/Event";
 import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";
-import { EventDB, QuestionDB } from "@prisma/client";
+import { EventDB } from "@prisma/client";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
 
 interface EventProps {
   event: EventDB & {
-    questions: QuestionDB[];
+    _count: {
+      questions: number;
+    };
   };
   firstPage: boolean;
-  onUpdateEvent: (event: EventDB) => void;
+  onUpdateEvent: (event: EventDB, includeQuestions: boolean) => void;
   onDeleteEvent?: (id: string) => void;
 }
 
@@ -33,7 +35,7 @@ const Event: FC<EventProps> = ({
 
   const handleChangeName = debounce(
     (changeEvent: ChangeEvent<HTMLTextAreaElement>) => {
-      onUpdateEvent({ ...event, name: changeEvent.target.value });
+      onUpdateEvent({ ...event, name: changeEvent.target.value }, !firstPage);
     },
     DEBOUNCE_TIMEOUT,
   );
@@ -49,6 +51,8 @@ const Event: FC<EventProps> = ({
     () => user?.sub === event.userId,
     [user?.sub, event.userId],
   );
+
+  const questionsCounter = event?._count.questions;
 
   return (
     <div className={classes.events__item}>
@@ -75,12 +79,14 @@ const Event: FC<EventProps> = ({
       <div className={classNames(classes.events__dates, classes.dates)}>
         <EventDate
           event={event}
+          firstPage={firstPage}
           onUpdateEvent={onUpdateEvent}
           type={DateType.Start}
           changeable={changeable}
         />
         <EventDate
           event={event}
+          firstPage={firstPage}
           onUpdateEvent={onUpdateEvent}
           type={DateType.End}
           changeable={changeable}
@@ -91,9 +97,9 @@ const Event: FC<EventProps> = ({
       >{`Creator: ${event.userName}`}</div>
       <div className={classes.events__questions}>
         <div className={classes.events__qacounter}>
-          {`Questions: ${event.questions.length}`}
+          {`Questions: ${questionsCounter}`}
         </div>
-        {event.questions.length >= HOT_TOPIC_AMOUNT && (
+        {questionsCounter >= HOT_TOPIC_AMOUNT && (
           <Image
             className={classes.events__hot}
             src="/img/hot_topic.png"

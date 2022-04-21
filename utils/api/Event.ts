@@ -13,13 +13,17 @@ export const fetchCreateEvent = async (event: CreateEventDB) => {
   return res.data;
 };
 
-export const fetchUpdateEvent = async (event: EventDB) => {
+export const fetchUpdateEvent = async (
+  event: EventDB,
+  includeQuestions: boolean,
+) => {
   const { id, name, start, end } = event;
   const res = await axios.put("api/db/Events/updateEvent", {
     id,
     name,
     start,
     end,
+    includeQuestions,
   });
   return res.data;
 };

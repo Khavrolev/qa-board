@@ -6,18 +6,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FC } from "react";
 import { isString } from "../../utils/guards/Type";
 import { DateType } from "../../utils/enums/Event";
-import { useUser } from "@auth0/nextjs-auth0";
 import { EventDB } from "@prisma/client";
 
 interface EventDateProps {
   event: EventDB;
-  onUpdateEvent: (event: EventDB) => void;
+  firstPage: boolean;
+  onUpdateEvent: (event: EventDB, includeQuestions: boolean) => void;
   type: DateType;
   changeable: boolean;
 }
 
 const EventDate: FC<EventDateProps> = ({
   event,
+  firstPage,
   onUpdateEvent,
   type,
   changeable,
@@ -72,7 +73,9 @@ const EventDate: FC<EventDateProps> = ({
         filterTime={filterTime}
         minDate={minDate}
         maxDate={maxDate}
-        onChange={(date) => date && onUpdateEvent({ ...event, [type]: date })}
+        onChange={(date) =>
+          date && onUpdateEvent({ ...event, [type]: date }, !firstPage)
+        }
       />
     </div>
   );
