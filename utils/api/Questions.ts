@@ -14,7 +14,7 @@ export const fetchCreateQuestion = async (question: CreateQuestionDB) => {
 
 export const fetchUpdateQuestion = async (question: QuestionDB) => {
   const { id, likes } = question;
-  const res = await axios.put("api/db/Questions/updateQuestion", {
+  const res = await axios.put("api/db/Questions/updateLikesQuestion", {
     id,
     likes,
   });

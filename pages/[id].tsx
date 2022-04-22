@@ -39,7 +39,6 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
     submitEvent.currentTarget.question.value = "";
   };
 
-  console.log(event);
   return (
     <>
       <Event
@@ -109,7 +108,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const event = await prisma.eventDB.findUnique({
       where: { id },
-      include: { questions: true },
+      include: { questions: { orderBy: { createdAt: "asc" } } },
     });
 
     if (!event) {

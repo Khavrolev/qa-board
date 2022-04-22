@@ -2,7 +2,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { QuestionDB } from "@prisma/client";
 import classNames from "classnames";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import classes from "../../styles/Question.module.css";
 import {
   getFromLocalStorage,
@@ -26,17 +26,23 @@ const Question: FC<QuestionProps> = ({
 }) => {
   const { user } = useUser();
 
-  const localStorage: string = `${process.env
+  const localVariable: string = `${process.env
     .NEXT_PUBLIC_LOCAL_STORAGE_QUESTION_LIKE!}_${question.id}`;
-  const questionLiked = getFromLocalStorage(localStorage);
+  const [liked, setLiked] = useState<boolean>();
+
+  useEffect(() => {
+    setLiked(getFromLocalStorage(localVariable) ? true : false);
+  }, [localVariable]);
 
   const handleUpdateLikes = async () => {
-    if (questionLiked) {
-      removeFromLocalStorage(localStorage);
+    if (liked) {
+      removeFromLocalStorage(localVariable);
       await onUpdateQuestion({ ...question, likes: question.likes - 1 });
+      setLiked(false);
     } else {
-      setToLocalStorage(localStorage, "liked");
+      setToLocalStorage(localVariable, "liked");
       await onUpdateQuestion({ ...question, likes: question.likes + 1 });
+      setLiked(true);
     }
   };
 
@@ -67,8 +73,8 @@ const Question: FC<QuestionProps> = ({
         <div className={classes.question__likes} onClick={handleUpdateLikes}>
           <div
             className={classNames(classes.question__like, {
-              [classes.question__like_not]: !questionLiked,
-              [classes.question__like_yes]: questionLiked,
+              [classes.question__like_not]: !liked,
+              [classes.question__like_yes]: liked,
             })}
           ></div>
           <div className={classes.question__likescounter}>{question.likes}</div>
