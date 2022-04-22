@@ -1,0 +1,30 @@
+.wrapper__footer {
+  margin-top: 10px;
+}
+
+.footer {
+  margin: 0 -10px;
+  padding: 10px;
+  display: flex;
+  background-color: rgb(20, 19, 19);
+  color: #dedede;
+}
+
+.footer__title {
+  margin-left: auto;
+  font-size: 11px;
+}
+
+@media (min-width: 568px) {
+  .wrapper__footer {
+    margin-top: 30px;
+  }
+
+  .footer {
+    padding: 30px 10px 30px 40px;
+  }
+
+  .footer__title {
+    font-size: 15px;
+  }
+}

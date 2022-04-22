@@ -4,6 +4,7 @@ import { FC, ReactNode } from "react";
 import Header from "../header/Header";
 import classes from "../../styles/Layout.module.css";
 import { UserProvider } from "@auth0/nextjs-auth0";
+import Footer from "../footer/Footer";
 
 interface LayoutProps {
   children: ReactNode;
@@ -22,6 +23,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         <main className={classNames(classes.wrapper__main, classes.main)}>
           {children}
         </main>
+        <Footer />
       </div>
     </UserProvider>
   );
