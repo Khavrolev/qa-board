@@ -1,34 +1,22 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import prisma from "../../../../utils/prisma/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { EventDB, QuestionDB } from "@prisma/client";
+import { QuestionDB } from "@prisma/client";
 import { ErrorData } from "../../../../utils/api/Interfaces";
 
 const handler = withApiAuthRequired(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<
-      | (EventDB & {
-          _count: {
-            questions: number;
-          };
-        })
-      | ErrorData
-    >,
-  ) => {
+  async (req: NextApiRequest, res: NextApiResponse<QuestionDB | ErrorData>) => {
     const session = getSession(req, res);
-    const { name, start, end } = req.body;
+    const { text, event_id } = req.body;
 
     try {
-      const createdRecord = await prisma.eventDB.create({
+      const createdRecord = await prisma.questionDB.create({
         data: {
-          name,
-          start,
-          end,
+          text,
+          event_id,
           userId: session?.user?.sub,
           userName: session?.user?.nickname,
         },
-        include: { _count: { select: { questions: true } } },
       });
       res.status(200).json(createdRecord);
     } catch (error) {

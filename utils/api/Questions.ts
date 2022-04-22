@@ -1,31 +1,28 @@
-import { EventDB } from "@prisma/client";
+import { QuestionDB } from "@prisma/client";
 import axios from "axios";
-import { CreateEventDB } from "./Interfaces";
+import { CreateQuestionDB } from "./Interfaces";
 
-export const fetchCreateEvent = async (event: CreateEventDB) => {
-  const { name, start, end } = event;
-  const res = await axios.post("api/db/Events/createEvent", {
-    name,
-    start,
-    end,
+export const fetchCreateQuestion = async (question: CreateQuestionDB) => {
+  const { text, event_id } = question;
+  const res = await axios.post("api/db/Questions/createQuestion", {
+    text,
+    event_id,
   });
 
   return res.data;
 };
 
-export const fetchUpdateEvent = async (event: EventDB) => {
-  const { id, name, start, end } = event;
-  const res = await axios.put("api/db/Events/updateEvent", {
+export const fetchUpdateQuestion = async (question: QuestionDB) => {
+  const { id, likes } = question;
+  const res = await axios.put("api/db/Questions/updateQuestion", {
     id,
-    name,
-    start,
-    end,
+    likes,
   });
   return res.data;
 };
 
-export const fetchDeleteEvent = async (id: string) => {
-  const res = await axios.delete(`api/db/Events/deleteEvent?id=${id}`);
+export const fetchDeleteQuestion = async (id: string) => {
+  const res = await axios.delete(`api/db/Questions/deleteQuestion?id=${id}`);
 
   return res.data;
 };

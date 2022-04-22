@@ -1,12 +1,23 @@
 .question__item {
   padding: 10px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #dddddd;
+}
+.question__item:first-child {
+  border-top: 3px solid #dbb262;
 }
 
 .question__item:not(:first-child) {
-  margin-top: 10px;
+  border-top: 1px solid #dddddd;
+}
+
+.question__button {
+  padding: 3px 10px;
+  position: absolute;
+  min-width: auto;
+  top: 8px;
+  right: 8px;
 }
 
 .question__username {
@@ -21,16 +32,77 @@
 .question__bottom {
   margin-top: 20px;
   display: flex;
+  align-items: center;
+  color: #888888;
 }
 
 .question__time {
-  margin-right: auto;
+  margin-right: 30px;
+  min-width: 140px;
   display: flex;
   align-items: center;
 }
 
 .question__left {
-  margin-left: 5px;
+  margin: 5px;
   font-size: 11px;
-  color: #888888;
+}
+
+.question__likes {
+  display: flex;
+  align-items: center;
+}
+
+.question__likes:hover {
+  opacity: 0.7;
+}
+
+.question__likescounter {
+  margin: auto 0px;
+}
+
+.question__like {
+  margin-right: 5px;
+  width: 12px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.question__like_not {
+  background: url(/img/control-sprite.png) 0 -123px;
+}
+
+.question__like_yes {
+  background: url(/img/control-sprite.png) 0 -100px;
+}
+
+@media (min-width: 568px) {
+  .question__item {
+    padding: 20px 30px;
+  }
+
+  .question__button {
+    right: 25px;
+  }
+
+  .question__text {
+    margin-top: 20px;
+  }
+
+  .question__bottom {
+    margin-top: 30px;
+  }
+
+  .question__time {
+    min-width: 180px;
+    margin-right: 50px;
+  }
+
+  .question__left {
+    font-size: 15px;
+  }
+
+  .question__likescounter {
+    font-size: 15px;
+  }
 }

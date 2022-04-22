@@ -71,7 +71,6 @@ button {
   display: inline-block;
   font-weight: 500;
   list-style: none;
-  padding: 6px 16px;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;
   -webkit-user-select: none;
@@ -95,6 +94,10 @@ button {
 
 .button:focus {
   outline: 1px transparent;
+}
+
+.button_padding {
+  padding: 6px 16px;
 }
 
 input,

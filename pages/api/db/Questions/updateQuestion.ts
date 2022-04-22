@@ -1,33 +1,18 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import prisma from "../../../../utils/prisma/prisma";
-import { EventDB, QuestionDB } from "@prisma/client";
+import { QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ErrorData } from "../../../../utils/api/Interfaces";
 
 const handler = withApiAuthRequired(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<
-      | (EventDB & {
-          _count: {
-            questions: number;
-          };
-          questions: QuestionDB[];
-        })
-      | ErrorData
-    >,
-  ) => {
-    const { id, name, start, end, includeQuestions } = req.body;
+  async (req: NextApiRequest, res: NextApiResponse<QuestionDB | ErrorData>) => {
+    const { id, likes } = req.body;
 
     try {
-      const options = {
+      const updatedRecord = await prisma.questionDB.update({
         where: { id },
-        data: { name, start, end },
-        include: includeQuestions
-          ? { questions: true }
-          : { _count: { select: { questions: true } } },
-      };
-      const updatedRecord = await prisma.eventDB.update(options);
+        data: { likes },
+      });
       res.status(200).json(updatedRecord);
     } catch (error) {
       res.status(500).json({ message: "Ooops! Something went wrong" });

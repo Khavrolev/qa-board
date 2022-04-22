@@ -15,7 +15,13 @@ const Header = () => {
         {user && !isLoading && (
           <div className={classes.header__logged}>
             <Link href="/api/auth/logout">
-              <a className={classNames("button", classes.header__button)}>
+              <a
+                className={classNames(
+                  "button",
+                  "button_padding",
+                  classes.header__button,
+                )}
+              >
                 Logout
               </a>
             </Link>
@@ -24,7 +30,13 @@ const Header = () => {
         )}
         {!user && !isLoading && (
           <Link href="/api/auth/login">
-            <a className={classNames("button", classes.header__button)}>
+            <a
+              className={classNames(
+                "button",
+                "button_padding",
+                classes.header__button,
+              )}
+            >
               Login
             </a>
           </Link>

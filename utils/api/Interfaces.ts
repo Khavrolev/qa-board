@@ -4,6 +4,11 @@ export interface CreateEventDB {
   end: Date;
 }
 
+export interface CreateQuestionDB {
+  text: string;
+  event_id: string;
+}
+
 export interface ErrorData {
   message: string;
 }

@@ -1,7 +1,7 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import prisma from "../../../../utils/prisma/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { EventDB, QuestionDB } from "@prisma/client";
+import { EventDB } from "@prisma/client";
 import { ErrorData } from "../../../../utils/api/Interfaces";
 
 const handler = withApiAuthRequired(

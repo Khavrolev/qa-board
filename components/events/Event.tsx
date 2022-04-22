@@ -10,6 +10,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { EventDB } from "@prisma/client";
+import BtnDelete from "../buttons/btnDelete";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
@@ -40,13 +41,6 @@ const Event: FC<EventProps> = ({
     DEBOUNCE_TIMEOUT,
   );
 
-  const handleDeleteEvent = (clickEvent: MouseEvent<HTMLButtonElement>) => {
-    clickEvent.stopPropagation();
-    if (onDeleteEvent !== undefined) {
-      onDeleteEvent(event.id);
-    }
-  };
-
   const changeable = useMemo(
     () => user?.sub === event.userId,
     [user?.sub, event.userId],
@@ -57,17 +51,11 @@ const Event: FC<EventProps> = ({
   return (
     <div className={classes.events__item}>
       {changeable && firstPage && (
-        <button
-          className={classNames("button", classes.events__button)}
-          onClick={handleDeleteEvent}
-        >
-          <svg style={{ width: "15px", height: "15px" }} viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
-            />
-          </svg>
-        </button>
+        <BtnDelete
+          id={event.id}
+          style={classes.events__button}
+          onDelete={onDeleteEvent}
+        />
       )}
       <ReactTextareaAutosize
         disabled={!changeable}

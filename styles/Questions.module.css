@@ -1,10 +1,74 @@
+.main__questionblock {
+  margin-top: 30px;
+}
+
 .main__title {
-  margin-top: 20px;
-  font-size: 15px;
+  font-size: 18px;
   text-align: center;
   font-weight: bold;
 }
 
 .main__questions {
   margin-top: 20px;
+}
+
+.main__noquestions {
+  margin-top: 10px;
+  padding: 0px 10px;
+}
+
+.main__newcomment {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main__form {
+  margin-top: 10px;
+  padding: 0px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main__textarea {
+  padding: 10px;
+  border: 1px solid #d5d5d5;
+}
+
+.main__askbutton {
+  margin-top: 10px;
+  max-width: 50px;
+}
+
+@media (min-width: 568px) {
+  .main__questionblock {
+    margin-top: 50px;
+  }
+
+  .main__title {
+    font-size: 25px;
+  }
+
+  .main__questions {
+    margin-top: 25px;
+  }
+
+  .main__noquestions {
+    margin-top: 15px;
+    padding: 0px 30px;
+  }
+
+  .main__newcomment {
+    margin-top: 50px;
+  }
+
+  .main__form {
+    margin-top: 15px;
+    padding: 0 30px;
+  }
+
+  .main__askbutton {
+    margin-top: 15px;
+    max-width: 100px;
+  }
 }

@@ -47,7 +47,11 @@ const Events = ({ initialEvents }: EventsProps) => {
         </label>
         {user && (
           <button
-            className={classNames("button", classes.main__button)}
+            className={classNames(
+              "button",
+              "button_padding",
+              classes.main__button,
+            )}
             onClick={() =>
               handleCreateEvent({
                 name: "New event",
@@ -61,20 +65,18 @@ const Events = ({ initialEvents }: EventsProps) => {
         )}
       </div>
       <ul className={classNames(classes.main__events, classes.events)}>
-        {events
-          .filter((event) => filterEvents(event))
-          .map((event) => (
-            <Link key={event.id} href={`/${event.id}`} passHref>
-              <li className={classes.events__link}>
-                <Event
-                  event={event}
-                  firstPage={true}
-                  onUpdateEvent={handleUpdateEvent}
-                  onDeleteEvent={handleDeleteEvent}
-                />
-              </li>
-            </Link>
-          ))}
+        {events.filter(filterEvents).map((event) => (
+          <Link key={event.id} href={`/${event.id}`} passHref>
+            <li className={classes.events__link}>
+              <Event
+                event={event}
+                firstPage={true}
+                onUpdateEvent={handleUpdateEvent}
+                onDeleteEvent={handleDeleteEvent}
+              />
+            </li>
+          </Link>
+        ))}
       </ul>
     </>
   );
