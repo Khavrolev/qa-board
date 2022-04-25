@@ -25,8 +25,8 @@ const handler = withApiAuthRequired(
           name,
           start,
           end,
-          userId: session?.user?.sub,
-          userName: session?.user?.nickname,
+          userId: session?.user.sub,
+          userName: session?.user.nickname,
         },
         include: { _count: { select: { questions: true } } },
       });

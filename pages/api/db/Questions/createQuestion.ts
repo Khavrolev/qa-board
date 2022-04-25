@@ -14,8 +14,8 @@ const handler = withApiAuthRequired(
         data: {
           text,
           event_id,
-          userId: session?.user?.sub,
-          userName: session?.user?.nickname,
+          userId: session?.user.sub,
+          userName: session?.user.nickname,
         },
       });
       res.status(200).json(createdRecord);

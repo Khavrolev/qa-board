@@ -1,4 +1,4 @@
-import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import prisma from "../../../../utils/prisma/prisma";
 import { EventDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -11,8 +11,20 @@ const handler = withApiAuthRequired(
 
     try {
       if (!isString(id)) {
-        throw new Error();
+        return res.status(400).json({ message: "Ooops! Wrong id" });
       }
+
+      const session = getSession(req, res);
+      const record = await prisma.eventDB.findUnique({ where: { id } });
+
+      if (!record) {
+        return res.status(400).json({ message: "Ooops! Wrong id" });
+      }
+
+      if (session?.user.sub !== record.userId) {
+        return res.status(403).json({ message: "Ooops! Forbidden" });
+      }
+
       const deletedRecord = await prisma.eventDB.delete({ where: { id } });
       res.status(200).json(deletedRecord);
     } catch (error) {
