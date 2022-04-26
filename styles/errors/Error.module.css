@@ -1,0 +1,16 @@
+.error__item {
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #fb8080;
+  border: 2px solid #ff0000;
+}
+
+@media (min-width: 568px) {
+  .error__item {
+    padding: 20px;
+    font-size: 30px;
+  }
+}

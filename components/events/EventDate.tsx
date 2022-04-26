@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import DatePicker from "react-datepicker";
 import ru from "date-fns/locale/ru";
-import classes from "../../styles/Event.module.css";
+import classes from "../../styles/events/Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { FC } from "react";
 import { isString } from "../../utils/guards/Type";

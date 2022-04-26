@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import classes from "../../styles/Event.module.css";
+import classes from "../../styles/events/Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import EventDate from "./EventDate";
 import { ChangeEvent, FC, MouseEvent, useMemo } from "react";

@@ -3,13 +3,14 @@ import { useUser } from "@auth0/nextjs-auth0";
 import Layout from "../components/layout/Layout";
 import { GetServerSideProps } from "next";
 import Event from "../components/events/Event";
-import classes from "../styles/Events.module.css";
+import classes from "../styles/events/Events.module.css";
 import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
 import { isString } from "../utils/guards/Type";
 import prisma from "../utils/prisma/prisma";
 import { EventDB } from "@prisma/client";
 import Link from "next/link";
+import ErrorFetching from "../components/errors/ErrorFetching";
 
 interface EventsProps {
   initialEvents: (EventDB & {
@@ -17,13 +18,18 @@ interface EventsProps {
       questions: number;
     };
   })[];
-  error: string;
 }
 
 const Events = ({ initialEvents }: EventsProps) => {
   const { user } = useUser();
-  const { events, handleCreateEvent, handleUpdateEvent, handleDeleteEvent } =
-    useEvents(initialEvents);
+  const {
+    events,
+    handleCreateEvent,
+    handleUpdateEvent,
+    handleDeleteEvent,
+    errorFetching,
+    handleResetError,
+  } = useEvents(initialEvents);
   const [showOldEvents, setShowOldEvents] = useState(false);
 
   const filterEvents = (event: EventDB) => {
@@ -35,6 +41,14 @@ const Events = ({ initialEvents }: EventsProps) => {
 
   return (
     <>
+      {errorFetching && (
+        <div className={classNames(classes.main__error, classes.error)}>
+          <ErrorFetching
+            errorMessage={errorFetching}
+            onClick={handleResetError}
+          />
+        </div>
+      )}
       <div className={classes.main__head}>
         <label className={classes.main__label}>
           Show old events:{" "}
@@ -100,9 +114,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   } catch (error) {
     console.error(error);
     return {
-      props: {
-        error: "Ooops! Something went wrong",
-      },
+      notFound: true,
     };
   }
 };

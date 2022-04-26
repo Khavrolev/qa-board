@@ -3,7 +3,7 @@ import { EventDB, QuestionDB } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { FormEvent, ReactElement } from "react";
 import Event from "../components/events/Event";
-import classes from "../styles/Questions.module.css";
+import classes from "../styles/questions/Questions.module.css";
 import Layout from "../components/layout/Layout";
 import prisma from "../utils/prisma/prisma";
 import { isString } from "../utils/guards/Type";
@@ -11,6 +11,7 @@ import { useEvent } from "../hooks/useEvent";
 import classNames from "classnames";
 import Question from "../components/questions/Question";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import ErrorFetching from "../components/errors/ErrorFetching";
 
 interface QuestionsProps {
   initialEvent: EventDB & {
@@ -26,6 +27,8 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
     handleCreateQuestion,
     handleUpdateQuestion,
     handleDeleteEvent,
+    errorFetching,
+    handleResetError,
   } = useEvent(initialEvent);
 
   const onCreateQuestion = (submitEvent: FormEvent<HTMLFormElement>) => {
@@ -41,11 +44,21 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
 
   return (
     <>
-      <Event
-        event={{ ...event, _count: { questions: event.questions.length } }}
-        firstPage={false}
-        onUpdateEvent={handleUpdateEvent}
-      />
+      {errorFetching && (
+        <div className={classNames(classes.main__error, classes.error)}>
+          <ErrorFetching
+            errorMessage={errorFetching}
+            onClick={handleResetError}
+          />
+        </div>
+      )}
+      <div className={classes.main__event}>
+        <Event
+          event={{ ...event, _count: { questions: event.questions.length } }}
+          firstPage={false}
+          onUpdateEvent={handleUpdateEvent}
+        />
+      </div>
       <div className={classes.main__questionblock}>
         <h2
           className={classes.main__title}
@@ -122,9 +135,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } catch (error) {
     console.error(error);
     return {
-      props: {
-        error: "Ooops! Something went wrong",
-      },
+      notFound: true,
     };
   }
 };

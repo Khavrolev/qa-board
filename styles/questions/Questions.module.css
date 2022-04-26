@@ -1,3 +1,7 @@
+.main__event:not(:first-child) {
+  margin-top: 10px;
+}
+
 .main__questionblock {
   margin-top: 30px;
 }
@@ -41,6 +45,10 @@
 }
 
 @media (min-width: 568px) {
+  .main__event:not(:first-child) {
+    margin-top: 30px;
+  }
+
   .main__questionblock {
     margin-top: 50px;
   }

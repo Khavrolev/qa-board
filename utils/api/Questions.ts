@@ -18,6 +18,7 @@ export const fetchUpdateQuestion = async (question: QuestionDB) => {
     id,
     likes,
   });
+
   return res.data;
 };
 

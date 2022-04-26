@@ -3,7 +3,7 @@ import { QuestionDB } from "@prisma/client";
 import classNames from "classnames";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
-import classes from "../../styles/Question.module.css";
+import classes from "../../styles/questions/Question.module.css";
 import {
   getFromLocalStorage,
   removeFromLocalStorage,

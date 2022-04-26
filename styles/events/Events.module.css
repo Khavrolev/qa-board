@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.main__head:not(:first-child) {
+  margin-top: 10px;
+}
+
 .main__label {
   margin-right: auto;
 }
@@ -45,11 +49,15 @@
 }
 
 @media (min-width: 568px) {
-  .main__events {
+  .main__head {
+    padding: 0 0 0 30px;
+  }
+
+  .main__head:not(:first-child) {
     margin-top: 30px;
   }
 
-  .main__head {
-    padding: 0 0 0 30px;
+  .main__events {
+    margin-top: 30px;
   }
 }

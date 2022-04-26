@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import Head from "next/head";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useState } from "react";
 import Header from "../header/Header";
 import classes from "../../styles/Layout.module.css";
 import { UserProvider } from "@auth0/nextjs-auth0";
