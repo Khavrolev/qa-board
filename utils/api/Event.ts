@@ -30,7 +30,6 @@ export const fetchUpdateEvent = async (
 };
 
 export const fetchDeleteEvent = async (id: string) => {
-  id = "sdf";
   const res = await axios.delete(`api/db/Events/deleteEvent?id=${id}`);
 
   return res.data;
