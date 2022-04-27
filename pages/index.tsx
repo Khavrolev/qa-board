@@ -1,5 +1,4 @@
 import { ReactElement, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
 import Layout from "../components/layout/Layout";
 import { GetServerSideProps } from "next";
 import Event from "../components/events/Event";
@@ -11,6 +10,7 @@ import prisma from "../utils/prisma/prisma";
 import { EventDB } from "@prisma/client";
 import Link from "next/link";
 import ErrorFetching from "../components/errors/ErrorFetching";
+import { useSession } from "next-auth/react";
 
 interface EventsProps {
   initialEvents: (EventDB & {
@@ -21,7 +21,7 @@ interface EventsProps {
 }
 
 const Events = ({ initialEvents }: EventsProps) => {
-  const { user } = useUser();
+  const { data: session } = useSession();
   const {
     events,
     handleCreateEvent,
@@ -40,7 +40,7 @@ const Events = ({ initialEvents }: EventsProps) => {
   };
 
   return (
-    <>
+    <Layout>
       {errorFetching && (
         <div className={classNames(classes.main__error, classes.error)}>
           <ErrorFetching
@@ -59,7 +59,7 @@ const Events = ({ initialEvents }: EventsProps) => {
             onChange={() => setShowOldEvents(!showOldEvents)}
           />
         </label>
-        {user && (
+        {session?.user && (
           <button
             className={classNames(
               "button",
@@ -92,7 +92,7 @@ const Events = ({ initialEvents }: EventsProps) => {
           </Link>
         ))}
       </ul>
-    </>
+    </Layout>
   );
 };
 

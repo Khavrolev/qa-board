@@ -1,6 +1,6 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import { QuestionDB } from "@prisma/client";
 import classNames from "classnames";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import classes from "../../styles/questions/Question.module.css";
@@ -24,7 +24,7 @@ const Question: FC<QuestionProps> = ({
   onUpdateQuestion,
   onDeleteEvent,
 }) => {
-  const { user } = useUser();
+  const { data: session } = useSession();
 
   const localVariable: string = `${process.env
     .NEXT_PUBLIC_LOCAL_STORAGE_QUESTION_LIKE!}_${question.id}`;
@@ -48,7 +48,8 @@ const Question: FC<QuestionProps> = ({
 
   return (
     <li className={classes.question__item}>
-      {(question.userId === user?.sub || eventAuthorId === user?.sub) && (
+      {(question.userId === session?.user.id ||
+        eventAuthorId === session?.user.id) && (
         <BtnDelete
           id={question.id}
           style={classes.question__button}

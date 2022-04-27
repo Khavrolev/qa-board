@@ -1,10 +1,11 @@
 import classes from "../../styles/Header.module.css";
 import classNames from "classnames";
-import { useUser } from "@auth0/nextjs-auth0";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 const Header = () => {
-  const { user, isLoading } = useUser();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
   return (
     <header className={classNames(classes.wrapper__header, classes.header)}>
@@ -12,34 +13,47 @@ const Header = () => {
         <a className={classes.header__title}>Q&A board</a>
       </Link>
       <div className={classes.header__buttons}>
-        {user && !isLoading && (
+        {session?.user ? (
           <div className={classes.header__logged}>
-            <Link href="/api/auth/logout">
-              <a
-                className={classNames(
-                  "button",
-                  "button_padding",
-                  classes.header__button,
-                )}
-              >
-                Logout
-              </a>
-            </Link>
-            <div className={classes.header__nickname}>{user.nickname}</div>
-          </div>
-        )}
-        {!user && !isLoading && (
-          <Link href="/api/auth/login">
             <a
+              href={`/api/auth/signout`}
               className={classNames(
                 "button",
                 "button_padding",
                 classes.header__button,
               )}
+              onClick={(e) => {
+                e.preventDefault();
+                signOut();
+              }}
+            >
+              Logout
+            </a>
+            <div className={classes.header__nickname}>
+              {session?.user?.email || session?.user?.name}
+            </div>
+          </div>
+        ) : (
+          <div
+            className={classNames({
+              [classes.header__notlogged]: !session?.user && loading,
+            })}
+          >
+            <a
+              href={`/api/auth/signin`}
+              className={classNames(
+                "button",
+                "button_padding",
+                classes.header__button,
+              )}
+              onClick={(e) => {
+                e.preventDefault();
+                signIn();
+              }}
             >
               Login
             </a>
-          </Link>
+          </div>
         )}
       </div>
     </header>

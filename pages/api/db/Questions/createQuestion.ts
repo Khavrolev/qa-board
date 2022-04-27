@@ -1,28 +1,33 @@
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import prisma from "../../../../utils/prisma/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuestionDB } from "@prisma/client";
 import { ErrorData } from "../../../../utils/api/Interfaces";
+import { getSession } from "next-auth/react";
 
-const handler = withApiAuthRequired(
-  async (req: NextApiRequest, res: NextApiResponse<QuestionDB | ErrorData>) => {
-    const session = getSession(req, res);
-    const { text, event_id } = req.body;
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<QuestionDB | ErrorData>,
+) => {
+  const { text, event_id } = req.body;
 
-    try {
-      const createdRecord = await prisma.questionDB.create({
-        data: {
-          text,
-          event_id,
-          userId: session?.user.sub,
-          userName: session?.user.nickname,
-        },
-      });
-      res.status(200).json(createdRecord);
-    } catch (error) {
-      res.status(500).json({ message: "Ooops! Something went wrong" });
+  try {
+    const session = await getSession({ req });
+    if (!session) {
+      return res.status(500).json({ message: "Ooops! Something went wrong" });
     }
-  },
-);
+
+    const createdRecord = await prisma.questionDB.create({
+      data: {
+        text,
+        event_id,
+        userId: session?.user.id,
+        userName: session?.user.name,
+      },
+    });
+    res.status(200).json(createdRecord);
+  } catch (error) {
+    res.status(500).json({ message: "Ooops! Something went wrong" });
+  }
+};
 
 export default handler;

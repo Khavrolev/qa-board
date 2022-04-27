@@ -6,11 +6,11 @@ import { ChangeEvent, FC, MouseEvent, useMemo } from "react";
 import debounce from "lodash.debounce";
 import { isString } from "../../utils/guards/Type";
 import { DateType } from "../../utils/enums/Event";
-import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { EventDB } from "@prisma/client";
 import BtnDelete from "../buttons/btnDelete";
+import { useSession } from "next-auth/react";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
@@ -32,7 +32,7 @@ const Event: FC<EventProps> = ({
   onUpdateEvent,
   onDeleteEvent,
 }) => {
-  const { user } = useUser();
+  const { data: session } = useSession();
 
   const handleChangeName = debounce(
     (changeEvent: ChangeEvent<HTMLTextAreaElement>) => {
@@ -42,8 +42,8 @@ const Event: FC<EventProps> = ({
   );
 
   const changeable = useMemo(
-    () => user?.sub === event.userId,
-    [user?.sub, event.userId],
+    () => session?.user.id === event.userId,
+    [session?.user.id, event.userId],
   );
 
   const questionsCounter = event?._count.questions;

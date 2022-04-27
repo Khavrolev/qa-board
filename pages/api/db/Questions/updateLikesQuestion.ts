@@ -1,4 +1,3 @@
-import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import prisma from "../../../../utils/prisma/prisma";
 import { QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";

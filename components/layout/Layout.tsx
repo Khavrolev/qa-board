@@ -3,7 +3,6 @@ import Head from "next/head";
 import { FC, ReactNode, useState } from "react";
 import Header from "../header/Header";
 import classes from "../../styles/Layout.module.css";
-import { UserProvider } from "@auth0/nextjs-auth0";
 import Footer from "../footer/Footer";
 
 interface LayoutProps {
@@ -12,7 +11,7 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <UserProvider>
+    <>
       <Head>
         <title>Q&A Board</title>
         <meta name="description" content="QA Board" />
@@ -25,7 +24,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         </main>
         <Footer />
       </div>
-    </UserProvider>
+    </>
   );
 };
 

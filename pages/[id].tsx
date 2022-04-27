@@ -1,4 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import { EventDB, QuestionDB } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { FormEvent, ReactElement } from "react";
@@ -12,6 +11,7 @@ import classNames from "classnames";
 import Question from "../components/questions/Question";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import ErrorFetching from "../components/errors/ErrorFetching";
+import { useSession } from "next-auth/react";
 
 interface QuestionsProps {
   initialEvent: EventDB & {
@@ -20,7 +20,7 @@ interface QuestionsProps {
 }
 
 const Questions = ({ initialEvent }: QuestionsProps) => {
-  const { user } = useUser();
+  const { data: session } = useSession();
   const {
     event,
     handleUpdateEvent,
@@ -43,7 +43,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
   };
 
   return (
-    <>
+    <Layout>
       {errorFetching && (
         <div className={classNames(classes.main__error, classes.error)}>
           <ErrorFetching
@@ -81,7 +81,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
           <div className={classes.main__noquestions}>No questions</div>
         )}
       </div>
-      {user && (
+      {session?.user && (
         <div className={classes.main__newcomment}>
           <h3 className={classes.main__title}>Leave your question bellow</h3>
           <form className={classes.main__form} onSubmit={onCreateQuestion}>
@@ -103,7 +103,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
           </form>
         </div>
       )}
-    </>
+    </Layout>
   );
 };
 
