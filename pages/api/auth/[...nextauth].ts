@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import VkProvider from "next-auth/providers/vk";
+import YandexProvider from "next-auth/providers/yandex";
 import prisma from "../../../utils/prisma/prisma";
 
 export default NextAuth({
@@ -14,6 +14,10 @@ export default NextAuth({
     GoogleProvider({
       clientId: `${process.env.GOOGLE_CLIENT_ID}`,
       clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
+    }),
+    YandexProvider({
+      clientId: process.env.YANDEX_CLIENT_ID,
+      clientSecret: process.env.YANDEX_CLIENT_SECRET,
     }),
   ],
   debug: process.env.NODE_ENV === "development",
