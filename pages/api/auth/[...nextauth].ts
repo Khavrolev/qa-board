@@ -38,9 +38,8 @@ export default NextAuth({
           return { id, email, role };
         } catch (error) {
           console.log(`Authorize error: ${error}`);
+          return null;
         }
-
-        return null;
       },
     }),
   ],
