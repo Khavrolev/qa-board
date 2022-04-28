@@ -29,8 +29,9 @@ export const useEvents = (
 
   const handleCreateEvent = async (event: CreateEventDB) => {
     try {
+      console.log(errorFetching);
       const newEvent = await fetchCreateEvent(event);
-      if (!errorFetching) {
+      if (errorFetching) {
         setErrorFetching(null);
       }
 
@@ -47,7 +48,7 @@ export const useEvents = (
     async (event: EventDB, includeQuestions: boolean) => {
       try {
         const updatedEvent = await fetchUpdateEvent(event, includeQuestions);
-        if (!errorFetching) {
+        if (errorFetching) {
           setErrorFetching(null);
         }
 
@@ -72,7 +73,7 @@ export const useEvents = (
     async (id: string) => {
       try {
         const deletedEvent = await fetchDeleteEvent(id);
-        if (!errorFetching) {
+        if (errorFetching) {
           setErrorFetching(null);
         }
 

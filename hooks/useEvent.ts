@@ -22,7 +22,7 @@ export const useEvent = (
     async (event: EventDB, includeQuestions: boolean) => {
       try {
         const updatedEvent = await fetchUpdateEvent(event, includeQuestions);
-        if (!errorFetching) {
+        if (errorFetching) {
           setErrorFetching(null);
         }
 
@@ -40,7 +40,7 @@ export const useEvent = (
   const handleCreateQuestion = async (question: CreateQuestionDB) => {
     try {
       const newQuestion = await fetchCreateQuestion(question);
-      if (!errorFetching) {
+      if (errorFetching) {
         setErrorFetching(null);
       }
 
@@ -62,7 +62,7 @@ export const useEvent = (
     async (question: QuestionDB) => {
       try {
         const updatedQuestion = await fetchUpdateQuestion(question);
-        if (!errorFetching) {
+        if (errorFetching) {
           setErrorFetching(null);
         }
 
@@ -88,7 +88,7 @@ export const useEvent = (
     async (id: string) => {
       try {
         const deletedQuestion = await fetchDeleteQuestion(id);
-        if (!errorFetching) {
+        if (errorFetching) {
           setErrorFetching(null);
         }
 
