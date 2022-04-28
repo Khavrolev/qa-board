@@ -9,7 +9,7 @@ import { DateType } from "../../utils/enums/Event";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { EventDB } from "@prisma/client";
-import BtnDelete from "../buttons/btnDelete";
+import BtnDelete from "../buttons/BtnDelete";
 import { useSession } from "next-auth/react";
 
 const DEBOUNCE_TIMEOUT = 1000;

@@ -9,7 +9,7 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from "../../utils/localStorage/localStorage";
-import BtnDelete from "../buttons/btnDelete";
+import BtnDelete from "../buttons/BtnDelete";
 
 interface QuestionProps {
   question: QuestionDB;

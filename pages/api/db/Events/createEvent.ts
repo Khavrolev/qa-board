@@ -29,7 +29,7 @@ const handler = async (
         start,
         end,
         userId: session?.user.id,
-        userName: session?.user.name,
+        userName: session?.user.email,
       },
       include: { _count: { select: { questions: true } } },
     });

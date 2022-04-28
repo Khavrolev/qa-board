@@ -38,7 +38,7 @@ const Events = ({ initialEvents }: EventsProps) => {
     }
     return true;
   };
-
+  console.log(session);
   return (
     <Layout>
       {errorFetching && (

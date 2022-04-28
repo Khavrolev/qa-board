@@ -21,7 +21,7 @@ const handler = async (
         text,
         event_id,
         userId: session?.user.id,
-        userName: session?.user.name,
+        userName: session?.user.email,
       },
     });
     res.status(200).json(createdRecord);

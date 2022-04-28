@@ -9,6 +9,11 @@ export interface CreateQuestionDB {
   event_id: string;
 }
 
+export interface CreateUser {
+  email: string;
+  password: string;
+}
+
 export interface ErrorData {
   message: string;
 }

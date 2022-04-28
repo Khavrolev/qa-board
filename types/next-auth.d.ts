@@ -5,7 +5,15 @@ declare module "next-auth" {
     user: {
       id: string;
       email: string;
-      name: string;
+      role: string;
+    };
+  }
+
+  interface JWT {
+    user: {
+      id: string;
+      email: string;
+      role: string;
     };
   }
 }
