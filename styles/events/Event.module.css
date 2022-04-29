@@ -15,10 +15,11 @@
 .events__name {
   min-width: 90%;
   font-size: 18px;
+  line-height: 120%;
   font-weight: bold;
   flex: 1;
+  overflow: auto;
   cursor: pointer;
-  border: none;
 }
 
 .events__name:focus {

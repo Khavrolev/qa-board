@@ -22,7 +22,7 @@ export const useEvents = (
 
   const sortEvents = (prev: EventDB, cur: EventDB) => {
     if (isString(prev.start) && isString(cur.start)) {
-      return new Date(prev.start) >= new Date(cur.start) ? 1 : -1;
+      return new Date(prev.end) >= new Date(cur.end) ? 1 : -1;
     }
     return 0;
   };
