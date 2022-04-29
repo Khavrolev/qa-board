@@ -43,19 +43,10 @@
   margin-right: 10px;
   min-width: 50px;
   text-transform: capitalize;
-  cursor: default;
 }
 
 .dates__calendar {
   display: flex !important;
-}
-
-.dates__date {
-  cursor: pointer;
-}
-
-.dates__date_disabled {
-  cursor: default;
 }
 
 .events__creator {

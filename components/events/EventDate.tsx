@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import classes from "../../styles/events/Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { isString } from "../../utils/guards/Type";
 import { DateType } from "../../utils/enums/Event";
 import { EventDB } from "@prisma/client";
@@ -50,33 +50,37 @@ const EventDate: FC<EventDateProps> = ({
     return true;
   };
 
+  const handleClickOnDate = (clickEvent: MouseEvent<HTMLDivElement>) => {
+    if (changeable) {
+      clickEvent.stopPropagation();
+    }
+  };
+
   return (
     <div
       className={classNames(
         classes.dates__item,
         classes[`dates__item_${type}`],
       )}
-      onClick={(clickEvent) => clickEvent.stopPropagation()}
     >
       <div className={classes.dates__desc}>{`${type}:`}</div>
-      <DatePicker
-        className={classNames(classes.dates__date, {
-          [classes.dates__date_disabled]: !changeable,
-        })}
-        calendarClassName={classes.dates__calendar}
-        disabled={!changeable}
-        selected={isString(currentDate) ? new Date(currentDate) : undefined}
-        withPortal
-        showTimeSelect
-        dateFormat="Pp"
-        locale={ru}
-        filterTime={filterTime}
-        minDate={minDate}
-        maxDate={maxDate}
-        onChange={(date) =>
-          date && onUpdateEvent({ ...event, [type]: date }, !firstPage)
-        }
-      />
+      <div className={classes.dates__date} onClick={handleClickOnDate}>
+        <DatePicker
+          calendarClassName={classes.dates__calendar}
+          disabled={!changeable}
+          selected={isString(currentDate) ? new Date(currentDate) : undefined}
+          withPortal
+          showTimeSelect
+          dateFormat="Pp"
+          locale={ru}
+          filterTime={filterTime}
+          minDate={minDate}
+          maxDate={maxDate}
+          onChange={(date) =>
+            date && onUpdateEvent({ ...event, [type]: date }, !firstPage)
+          }
+        />
+      </div>
     </div>
   );
 };
