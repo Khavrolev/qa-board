@@ -18,7 +18,7 @@
   line-height: 120%;
   font-weight: bold;
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
   cursor: pointer;
 }
 
