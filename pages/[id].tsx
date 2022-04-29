@@ -37,7 +37,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
     handleCreateQuestion({
       text: submitEvent.currentTarget.question.value,
       event_id: event.id,
-      anonymousName: submitEvent.currentTarget.anonymousname.value,
+      anonymousName: submitEvent.currentTarget?.anonymousname?.value,
     });
 
     submitEvent.currentTarget.question.value = "";
