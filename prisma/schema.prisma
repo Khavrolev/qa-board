@@ -23,7 +23,7 @@ model EventDB {
 model QuestionDB {
   id        String   @id @default(uuid()) @db.Uuid
   text      String
-  userId    String
+  userId    String?
   userName  String
   createdAt DateTime @default(now())
   likes     Int      @default(0)

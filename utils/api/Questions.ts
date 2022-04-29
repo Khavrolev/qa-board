@@ -3,10 +3,11 @@ import axios from "axios";
 import { CreateQuestionDB } from "./Interfaces";
 
 export const fetchCreateQuestion = async (question: CreateQuestionDB) => {
-  const { text, event_id } = question;
+  const { text, event_id, anonymousName } = question;
   const res = await axios.post("api/db/Questions/createQuestion", {
     text,
     event_id,
+    anonymousName,
   });
 
   return res.data;

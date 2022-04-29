@@ -42,57 +42,65 @@ const Events = ({ initialEvents }: EventsProps) => {
 
   return (
     <Layout>
-      {errorFetching && (
-        <div className={classNames(classes.main__error, classes.error)}>
-          <ErrorFetching
-            errorMessage={errorFetching}
-            onClick={handleResetError}
-          />
+      {session?.user ? (
+        <>
+          {errorFetching && (
+            <div className={classNames(classes.main__error, classes.error)}>
+              <ErrorFetching
+                errorMessage={errorFetching}
+                onClick={handleResetError}
+              />
+            </div>
+          )}
+          <div className={classes.main__head}>
+            <label className={classes.main__label}>
+              Show old events:{" "}
+              <input
+                className={classes.main__checkbox}
+                type="checkbox"
+                checked={showOldEvents}
+                onChange={() => setShowOldEvents(!showOldEvents)}
+              />
+            </label>
+            {session?.user.role === adminRole && (
+              <button
+                className={classNames(
+                  "button",
+                  "button_padding",
+                  classes.main__button,
+                )}
+                onClick={() =>
+                  handleCreateEvent({
+                    name: "New event",
+                    start: new Date(),
+                    end: new Date(),
+                  })
+                }
+              >
+                Add event
+              </button>
+            )}
+          </div>
+          <ul className={classNames(classes.main__events, classes.events)}>
+            {events.filter(filterEvents).map((event) => (
+              <Link key={event.id} href={`/${event.id}`} passHref>
+                <li className={classes.events__link}>
+                  <Event
+                    event={event}
+                    firstPage={true}
+                    onUpdateEvent={handleUpdateEvent}
+                    onDeleteEvent={handleDeleteEvent}
+                  />
+                </li>
+              </Link>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <div className={classes.main__notauthorized}>
+          The list of events is only available to authorized users
         </div>
       )}
-      <div className={classes.main__head}>
-        <label className={classes.main__label}>
-          Show old events:{" "}
-          <input
-            className={classes.main__checkbox}
-            type="checkbox"
-            checked={showOldEvents}
-            onChange={() => setShowOldEvents(!showOldEvents)}
-          />
-        </label>
-        {session?.user.role === adminRole && (
-          <button
-            className={classNames(
-              "button",
-              "button_padding",
-              classes.main__button,
-            )}
-            onClick={() =>
-              handleCreateEvent({
-                name: "New event",
-                start: new Date(),
-                end: new Date(),
-              })
-            }
-          >
-            Add event
-          </button>
-        )}
-      </div>
-      <ul className={classNames(classes.main__events, classes.events)}>
-        {events.filter(filterEvents).map((event) => (
-          <Link key={event.id} href={`/${event.id}`} passHref>
-            <li className={classes.events__link}>
-              <Event
-                event={event}
-                firstPage={true}
-                onUpdateEvent={handleUpdateEvent}
-                onDeleteEvent={handleDeleteEvent}
-              />
-            </li>
-          </Link>
-        ))}
-      </ul>
     </Layout>
   );
 };

@@ -8,20 +8,17 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
-  const { text, event_id } = req.body;
+  const { text, event_id, anonymousName } = req.body;
 
   try {
     const session = await getSession({ req });
-    if (!session) {
-      return res.status(500).json({ message: "Ooops! Something went wrong" });
-    }
 
     const createdRecord = await prisma.questionDB.create({
       data: {
         text,
         event_id,
         userId: session?.user.id,
-        userName: session?.user.email,
+        userName: session?.user.email || anonymousName,
       },
     });
     res.status(200).json(createdRecord);

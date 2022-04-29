@@ -7,6 +7,7 @@ export interface CreateEventDB {
 export interface CreateQuestionDB {
   text: string;
   event_id: string;
+  anonymousName: string | undefined;
 }
 
 export interface CreateUser {

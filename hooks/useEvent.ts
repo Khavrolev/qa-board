@@ -69,9 +69,13 @@ export const useEvent = (
         setEvent((prevEvent) => {
           return {
             ...prevEvent,
-            questions: prevEvent.questions.map((question) =>
-              question.id === updatedQuestion.id ? updatedQuestion : question,
-            ),
+            questions: prevEvent.questions
+              .map((question) =>
+                question.id === updatedQuestion.id ? updatedQuestion : question,
+              )
+              .sort((prev, cur) =>
+                prev.likes > cur.likes ? -1 : prev.likes < cur.likes ? 1 : 0,
+              ),
           };
         });
       } catch (error) {

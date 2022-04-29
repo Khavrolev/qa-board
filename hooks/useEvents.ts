@@ -29,7 +29,6 @@ export const useEvents = (
 
   const handleCreateEvent = async (event: CreateEventDB) => {
     try {
-      console.log(errorFetching);
       const newEvent = await fetchCreateEvent(event);
       if (errorFetching) {
         setErrorFetching(null);

@@ -37,6 +37,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
     handleCreateQuestion({
       text: submitEvent.currentTarget.question.value,
       event_id: event.id,
+      anonymousName: submitEvent.currentTarget.anonymousname.value,
     });
 
     submitEvent.currentTarget.question.value = "";
@@ -80,28 +81,34 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
           <div className={classes.main__noquestions}>No questions</div>
         )}
       </div>
-      {session?.user && (
-        <div className={classes.main__newcomment}>
-          <h3 className={classes.main__title}>Leave your question bellow</h3>
-          <form className={classes.main__form} onSubmit={onCreateQuestion}>
+      <div className={classes.main__newcomment}>
+        <h3 className={classes.main__title}>Leave your question bellow</h3>
+        <form className={classes.main__form} onSubmit={onCreateQuestion}>
+          {!session?.user && (
             <ReactTextareaAutosize
-              name="question"
+              name="anonymousname"
               className={classes.main__textarea}
               required
-              placeholder="Leave your question"
+              placeholder="Type your name"
             ></ReactTextareaAutosize>
-            <input
-              className={classNames(
-                "button",
-                "button_padding",
-                classes.main__askbutton,
-              )}
-              type="submit"
-              value="Ask"
-            />
-          </form>
-        </div>
-      )}
+          )}
+          <ReactTextareaAutosize
+            name="question"
+            className={classes.main__textarea}
+            required
+            placeholder="Leave your question"
+          ></ReactTextareaAutosize>
+          <input
+            className={classNames(
+              "button",
+              "button_padding",
+              classes.main__askbutton,
+            )}
+            type="submit"
+            value="Ask"
+          />
+        </form>
+      </div>
     </Layout>
   );
 };
@@ -120,7 +127,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const event = await prisma.eventDB.findUnique({
       where: { id },
-      include: { questions: { orderBy: { createdAt: "asc" } } },
+      include: { questions: { orderBy: { likes: "desc" } } },
     });
 
     if (!event) {
