@@ -24,7 +24,7 @@
   align-self: center;
 }
 
-.header__notlogged {
+.header__loading {
   opacity: 0;
 }
 

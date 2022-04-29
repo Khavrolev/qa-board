@@ -58,7 +58,7 @@ const Header = () => {
           ) : (
             <div
               className={classNames({
-                [classes.header__notlogged]: !session?.user && loading,
+                [classes.header__loading]: !session?.user && loading,
               })}
             >
               <button

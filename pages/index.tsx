@@ -22,7 +22,9 @@ interface EventsProps {
 }
 
 const Events = ({ initialEvents }: EventsProps) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+
   const {
     events,
     handleCreateEvent,
@@ -97,7 +99,11 @@ const Events = ({ initialEvents }: EventsProps) => {
           </ul>
         </>
       ) : (
-        <div className={classes.main__notauthorized}>
+        <div
+          className={classNames(classes.main__notauthorized, {
+            [classes.main__loading]: !session?.user && loading,
+          })}
+        >
           The list of events is only available to authorized users
         </div>
       )}

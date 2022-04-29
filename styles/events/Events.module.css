@@ -37,6 +37,10 @@
   margin-top: 20px;
 }
 
+.main__loading {
+  opacity: 0;
+}
+
 .events {
   display: flex;
   flex-direction: column;
