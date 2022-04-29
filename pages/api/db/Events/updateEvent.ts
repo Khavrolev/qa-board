@@ -18,6 +18,10 @@ const handler = async (
     | ErrorData
   >,
 ) => {
+  if (req.method !== "PUT") {
+    return res.status(405).json({ message: "Ooops! Method not allowed" });
+  }
+
   const { id, name, start, end, includeQuestions } = req.body;
 
   try {

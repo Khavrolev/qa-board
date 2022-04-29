@@ -10,6 +10,10 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<EventDB | ErrorData>,
 ) => {
+  if (req.method !== "DELETE") {
+    return res.status(405).json({ message: "Ooops! Method not allowed" });
+  }
+
   const { id } = req.query;
 
   try {

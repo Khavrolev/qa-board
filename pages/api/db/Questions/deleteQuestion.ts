@@ -13,6 +13,10 @@ const handler = async (
   const { id } = req.query;
 
   try {
+    if (req.method !== "DELETE") {
+      return res.status(405).json({ message: "Ooops! Method not allowed" });
+    }
+
     if (!isString(id)) {
       return res.status(400).json({ message: "Ooops! Wrong id" });
     }

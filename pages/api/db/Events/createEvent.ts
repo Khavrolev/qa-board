@@ -16,6 +16,10 @@ const handler = async (
     | ErrorData
   >,
 ) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Ooops! Method not allowed" });
+  }
+
   const { name, start, end } = req.body;
 
   try {

@@ -7,6 +7,10 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
+  if (req.method !== "PUT") {
+    return res.status(405).json({ message: "Ooops! Method not allowed" });
+  }
+
   const { id, likes } = req.body;
 
   try {

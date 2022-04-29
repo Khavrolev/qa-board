@@ -8,6 +8,10 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Ooops! Method not allowed" });
+  }
+
   const { text, event_id, anonymousName } = req.body;
 
   try {
