@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { EventDB } from "@prisma/client";
 import { ErrorData } from "../../../../utils/api/Interfaces";
 import { getSession } from "next-auth/react";
+import { adminRole } from "../../../../utils/const";
 
 const handler = async (
   req: NextApiRequest,
@@ -19,8 +20,8 @@ const handler = async (
 
   try {
     const session = await getSession({ req });
-    if (!session) {
-      return res.status(500).json({ message: "Ooops! Something went wrong" });
+    if (session?.user.role !== adminRole) {
+      return res.status(403).json({ message: "Ooops! Forbidden" });
     }
 
     const createdRecord = await prisma.eventDB.create({

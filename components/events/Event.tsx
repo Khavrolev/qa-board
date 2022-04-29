@@ -2,7 +2,7 @@ import classNames from "classnames";
 import classes from "../../styles/events/Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import EventDate from "./EventDate";
-import { ChangeEvent, FC, MouseEvent, useMemo } from "react";
+import { ChangeEvent, FC } from "react";
 import debounce from "lodash.debounce";
 import { isString } from "../../utils/guards/Type";
 import { DateType } from "../../utils/enums/Event";
@@ -11,6 +11,7 @@ import ReactTextareaAutosize from "react-textarea-autosize";
 import { EventDB } from "@prisma/client";
 import BtnDelete from "../buttons/BtnDelete";
 import { useSession } from "next-auth/react";
+import { adminRole } from "../../utils/const";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
@@ -41,11 +42,7 @@ const Event: FC<EventProps> = ({
     DEBOUNCE_TIMEOUT,
   );
 
-  const changeable = useMemo(
-    () => session?.user.id === event.userId,
-    [session?.user.id, event.userId],
-  );
-
+  const changeable = session?.user.role === adminRole;
   const questionsCounter = event?._count.questions;
 
   return (

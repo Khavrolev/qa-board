@@ -16,7 +16,7 @@ const SignIn: FC<SignInProps> = ({ onIsModalOpenChange }) => {
     const password = event.currentTarget.password.value;
 
     try {
-      const response = await signIn("credentials", {
+      const response = await signIn<"credentials">("credentials", {
         redirect: false,
         email: email,
         password: password,

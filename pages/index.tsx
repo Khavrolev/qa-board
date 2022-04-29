@@ -11,6 +11,7 @@ import { EventDB } from "@prisma/client";
 import Link from "next/link";
 import ErrorFetching from "../components/errors/ErrorFetching";
 import { useSession } from "next-auth/react";
+import { adminRole } from "../utils/const";
 
 interface EventsProps {
   initialEvents: (EventDB & {
@@ -38,7 +39,7 @@ const Events = ({ initialEvents }: EventsProps) => {
     }
     return true;
   };
-  console.log(session);
+
   return (
     <Layout>
       {errorFetching && (
@@ -59,7 +60,7 @@ const Events = ({ initialEvents }: EventsProps) => {
             onChange={() => setShowOldEvents(!showOldEvents)}
           />
         </label>
-        {session?.user && (
+        {session?.user.role === adminRole && (
           <button
             className={classNames(
               "button",

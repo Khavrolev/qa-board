@@ -9,7 +9,7 @@ export default NextAuth({
     CredentialsProvider({
       id: "credentials",
       name: "credentials",
-      credentials: {},
+      credentials: { email: {}, password: {} },
       async authorize(credentials) {
         try {
           const user = await prisma.userDB.findFirst({

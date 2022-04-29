@@ -71,7 +71,6 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
               <Question
                 key={question.id}
                 question={question}
-                eventAuthorId={event.userId}
                 onUpdateQuestion={handleUpdateQuestion}
                 onDeleteEvent={handleDeleteEvent}
               />

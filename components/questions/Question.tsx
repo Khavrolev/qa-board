@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import classes from "../../styles/questions/Question.module.css";
+import { adminRole } from "../../utils/const";
 import {
   getFromLocalStorage,
   removeFromLocalStorage,
@@ -13,14 +14,12 @@ import BtnDelete from "../buttons/BtnDelete";
 
 interface QuestionProps {
   question: QuestionDB;
-  eventAuthorId: string;
   onUpdateQuestion: (question: QuestionDB) => void;
   onDeleteEvent: (id: string) => void;
 }
 
 const Question: FC<QuestionProps> = ({
   question,
-  eventAuthorId,
   onUpdateQuestion,
   onDeleteEvent,
 }) => {
@@ -49,7 +48,7 @@ const Question: FC<QuestionProps> = ({
   return (
     <li className={classes.question__item}>
       {(question.userId === session?.user.id ||
-        eventAuthorId === session?.user.id) && (
+        session?.user.role === adminRole) && (
         <BtnDelete
           id={question.id}
           style={classes.question__button}
