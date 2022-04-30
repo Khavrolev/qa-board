@@ -1,3 +1,7 @@
+export interface ResponseData extends ErrorData {
+  code: number;
+}
+
 export interface CreateEventDB {
   name: string;
   start: Date;

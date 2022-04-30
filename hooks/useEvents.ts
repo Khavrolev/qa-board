@@ -5,8 +5,8 @@ import {
   fetchCreateEvent,
   fetchDeleteEvent,
   fetchUpdateEvent,
-} from "../utils/api/Eventss";
-import { CreateEventDB } from "../utils/api/Interfacess";
+} from "../utils/api/events";
+import { CreateEventDB } from "../utils/api/interfaces";
 import { isString } from "../utils/guards/type";
 import { useError } from "./useError";
 

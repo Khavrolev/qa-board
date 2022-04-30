@@ -1,19 +1,18 @@
 import prisma from "../../../../utils/prisma/prisma";
 import { QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ErrorData } from "../../../../utils/api/Interfacess";
+import { ErrorData } from "../../../../utils/api/interfaces";
+import { checkRequestType } from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
-  if (req.method !== "PUT") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
   const { id, likes } = req.body;
 
   try {
+    checkRequestType(req.method, res, "PUT");
+
     const updatedRecord = await prisma.questionDB.update({
       where: { id },
       data: { likes },

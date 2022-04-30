@@ -2,9 +2,10 @@ import prisma from "../../../../utils/prisma/prisma";
 import { QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isString } from "../../../../utils/guards/type";
-import { ErrorData } from "../../../../utils/api/Interfacess";
+import { ErrorData } from "../../../../utils/api/interfaces";
 import { getSession } from "next-auth/react";
-import { Roles } from "../../../../utils/enums/Userr";
+import { Roles } from "../../../../utils/enums/user";
+import { checkRequestType } from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
@@ -13,9 +14,7 @@ const handler = async (
   const { id } = req.query;
 
   try {
-    if (req.method !== "DELETE") {
-      return res.status(405).json({ message: "Method not allowed" });
-    }
+    checkRequestType(req.method, res, "DELETE");
 
     if (!isString(id)) {
       return res.status(400).json({ message: "Wrong id" });

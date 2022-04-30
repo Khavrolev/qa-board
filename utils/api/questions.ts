@@ -1,10 +1,12 @@
 import { QuestionDB } from "@prisma/client";
 import axios from "axios";
-import { CreateQuestionDB } from "./Interfacess";
+import { CreateQuestionDB } from "./interfaces";
+
+const questionsRoute = `api/db/questions`;
 
 export const fetchCreateQuestion = async (question: CreateQuestionDB) => {
   const { text, event_id, anonymousName } = question;
-  const res = await axios.post("api/db/Questions/createQuestion", {
+  const res = await axios.post(`${questionsRoute}/createQuestion`, {
     text,
     event_id,
     anonymousName,
@@ -15,7 +17,7 @@ export const fetchCreateQuestion = async (question: CreateQuestionDB) => {
 
 export const fetchUpdateQuestion = async (question: QuestionDB) => {
   const { id, likes } = question;
-  const res = await axios.put("api/db/Questions/updateLikesQuestion", {
+  const res = await axios.put(`${questionsRoute}/updateLikesQuestion`, {
     id,
     likes,
   });
@@ -24,7 +26,7 @@ export const fetchUpdateQuestion = async (question: QuestionDB) => {
 };
 
 export const fetchDeleteQuestion = async (id: string) => {
-  const res = await axios.delete(`api/db/Questions/deleteQuestion?id=${id}`);
+  const res = await axios.delete(`${questionsRoute}/deleteQuestion?id=${id}`);
 
   return res.data;
 };

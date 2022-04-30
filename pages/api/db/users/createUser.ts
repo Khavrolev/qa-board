@@ -1,6 +1,6 @@
 import { UserDB } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ErrorData } from "../../../../utils/api/Interfacess";
+import { ErrorData } from "../../../../utils/api/interfaces";
 import prisma from "../../../../utils/prisma/prisma";
 
 const bcrypt = require("bcrypt");

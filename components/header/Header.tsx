@@ -4,7 +4,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import Popup from "../popup/Popup";
-import { PopupType } from "../../utils/enums/Popupp";
+import { PopupType } from "../../utils/enums/popup";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

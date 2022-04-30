@@ -1,20 +1,19 @@
 import prisma from "../../../../utils/prisma/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuestionDB } from "@prisma/client";
-import { ErrorData } from "../../../../utils/api/Interfacess";
+import { ErrorData } from "../../../../utils/api/interfaces";
 import { getSession } from "next-auth/react";
+import { checkRequestType } from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
   const { text, event_id, anonymousName } = req.body;
 
   try {
+    checkRequestType(req.method, res, "POST");
+
     const session = await getSession({ req });
 
     const createdRecord = await prisma.questionDB.create({

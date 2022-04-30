@@ -1,13 +1,13 @@
 import { EventDB, QuestionDB } from "@prisma/client";
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { fetchUpdateEvent } from "../utils/api/Eventss";
-import { CreateQuestionDB } from "../utils/api/Interfacess";
+import { fetchUpdateEvent } from "../utils/api/events";
+import { CreateQuestionDB } from "../utils/api/interfaces";
 import {
   fetchCreateQuestion,
   fetchDeleteQuestion,
   fetchUpdateQuestion,
-} from "../utils/api/Questionss";
+} from "../utils/api/questions";
 import { useError } from "./useError";
 
 export const useEvent = (

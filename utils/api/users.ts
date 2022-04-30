@@ -1,9 +1,11 @@
 import axios from "axios";
-import { CreateUser } from "./Interfacess";
+import { CreateUser } from "./interfaces";
+
+const usersRoute = `api/db/users`;
 
 export const fetchCreateUser = async (user: CreateUser) => {
   const { email, password } = user;
-  const res = await axios.post("api/db/Users/createUser", {
+  const res = await axios.post(`${usersRoute}/createUser`, {
     email,
     password,
   });

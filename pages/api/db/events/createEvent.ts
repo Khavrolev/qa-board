@@ -1,9 +1,10 @@
 import prisma from "../../../../utils/prisma/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { EventDB } from "@prisma/client";
-import { ErrorData } from "../../../../utils/api/Interfacess";
+import { ErrorData } from "../../../../utils/api/interfaces";
 import { getSession } from "next-auth/react";
-import { Roles } from "../../../../utils/enums/Userr";
+import { Roles } from "../../../../utils/enums/user";
+import { checkRequestType } from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
@@ -16,13 +17,11 @@ const handler = async (
     | ErrorData
   >,
 ) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
   const { name, start, end } = req.body;
 
   try {
+    checkRequestType(req.method, res, "POST");
+
     const session = await getSession({ req });
     if (session?.user.role !== Roles.Admin) {
       return res.status(403).json({ message: "Forbidden" });

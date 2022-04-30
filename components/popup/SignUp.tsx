@@ -2,7 +2,7 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 import { FC, useState } from "react";
 import classes from ".//Popup.module.css";
-import { fetchCreateUser } from "../../utils/api/Userss";
+import { fetchCreateUser } from "../../utils/api/users";
 
 const PASSWORD_REX = /.{5,}$/;
 

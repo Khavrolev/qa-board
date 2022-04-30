@@ -3,14 +3,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import EventDate from "./EventDate";
 import { ChangeEvent, FC } from "react";
 import debounce from "lodash.debounce";
-import { DateType } from "../../utils/enums/Eventt";
+import { DateType } from "../../utils/enums/event";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { EventDB } from "@prisma/client";
 import ButtonDelete from "../buttons/ButtonDelete";
 import { useSession } from "next-auth/react";
-import { Roles } from "../../utils/enums/Userr";
-import { isString } from "util";
+import { Roles } from "../../utils/enums/user";
+import { isString } from "../../utils/guards/type";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
