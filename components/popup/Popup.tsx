@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Modal from "react-modal";
-import classes from "../../styles/Popup.module.css";
+import classes from "./Popup.module.css";
 import { PopupType } from "../../utils/enums/Popup";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -40,7 +40,7 @@ const Popup: FC<PopupProps> = ({ isModalOpen, onIsModalOpenChange, type }) => {
     <Modal
       isOpen={isModalOpen}
       onRequestClose={() => onIsModalOpenChange(false)}
-      className={classes.popup__modal}
+      className={classes.popup}
       overlayClassName={classes.popup__overlay}
     >
       <h3 className={classes.popup__title}>{content.title}</h3>
