@@ -1,5 +1,5 @@
 import { FC } from "react";
-import classes from "../../styles/errors/Error.module.css";
+import classes from "./Error.module.css";
 
 interface ErrorFetchingProps {
   errorMessage: string;
@@ -8,7 +8,7 @@ interface ErrorFetchingProps {
 
 const ErrorFetching: FC<ErrorFetchingProps> = ({ errorMessage, onClick }) => {
   return (
-    <div className={classes.error__item} onClick={onClick}>
+    <div className={classes.error} onClick={onClick}>
       {errorMessage}
     </div>
   );

@@ -2,7 +2,7 @@ import { EventDB, QuestionDB } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { FormEvent, ReactElement } from "react";
 import Event from "../components/events/Event";
-import classes from "../styles/questions/Questions.module.css";
+import classes from "../styles/Questions.module.css";
 import Layout from "../components/layout/Layout";
 import prisma from "../utils/prisma/prisma";
 import { isString } from "../utils/guards/Type";
@@ -46,7 +46,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
   return (
     <Layout>
       {errorFetching && (
-        <div className={classNames(classes.main__error, classes.error)}>
+        <div className={classes.main__error}>
           <ErrorFetching
             errorMessage={errorFetching}
             onClick={handleResetError}
@@ -65,9 +65,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
           className={classes.main__title}
         >{`Questions (${event.questions.length})`}</h2>
         {event.questions.length > 0 ? (
-          <ul
-            className={classNames(classes.main__questions, classes.questions)}
-          >
+          <ul className={classes.main__questions}>
             {event.questions.map((question) => (
               <Question
                 key={question.id}
@@ -101,7 +99,7 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
           <input
             className={classNames(
               "button",
-              "button_padding",
+              "button__padding",
               classes.main__askbutton,
             )}
             type="submit"

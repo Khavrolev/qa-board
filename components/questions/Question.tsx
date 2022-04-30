@@ -3,14 +3,14 @@ import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
-import classes from "../../styles/questions/Question.module.css";
+import classes from "./Question.module.css";
 import { adminRole } from "../../utils/const";
 import {
   getFromLocalStorage,
   removeFromLocalStorage,
   setToLocalStorage,
 } from "../../utils/localStorage/localStorage";
-import BtnDelete from "../buttons/BtnDelete";
+import ButtonDelete from "../buttons/ButtonDelete";
 
 interface QuestionProps {
   question: QuestionDB;
@@ -46,10 +46,10 @@ const Question: FC<QuestionProps> = ({
   };
 
   return (
-    <li className={classes.question__item}>
+    <li className={classes.question}>
       {(question.userId === session?.user.id ||
         session?.user.role === adminRole) && (
-        <BtnDelete
+        <ButtonDelete
           id={question.id}
           style={classes.question__button}
           onDelete={onDeleteEvent}

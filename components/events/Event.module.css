@@ -1,10 +1,10 @@
-.events__item {
+.event {
   padding: 7px;
   position: relative;
   border: 3px solid #000000;
 }
 
-.events__button {
+.event__button {
   padding: 5px;
   position: absolute;
   min-width: auto;
@@ -12,7 +12,7 @@
   right: 5px;
 }
 
-.events__name {
+.event__name {
   min-width: 90%;
   font-size: 18px;
   line-height: 120%;
@@ -22,76 +22,76 @@
   cursor: pointer;
 }
 
-.events__name:focus {
+.event__name:focus {
   background: #ffe;
 }
 
-.events__dates {
+.event__date {
   margin-top: 15px;
 }
 
-.dates__item {
+.event__date:not(:first-child) {
+  margin-top: 5px;
+}
+
+.date {
   display: flex;
   align-items: center;
 }
 
-.dates__item:not(:first-child) {
-  margin-top: 5px;
-}
-
-.dates__desc {
+.date__desc {
   margin-right: 10px;
   min-width: 50px;
   text-transform: capitalize;
 }
 
-.dates__calendar {
+.date__calendar {
   display: flex !important;
 }
 
-.events__creator {
+.event__creator {
   margin-top: 15px;
   display: flex;
   font-weight: bold;
 }
 
-.events__questions {
+.event__questions {
   margin-top: 5px;
   display: flex;
 }
 
-.events__qacounter:not(:last-child) {
+.event__qacounter:not(:last-child) {
   margin-right: 10px;
 }
 
 @media (min-width: 568px) {
-  .events__item {
+  .event {
     padding: 27px;
   }
 
-  .events__button {
+  .event__button {
     padding: 5px 10px;
     top: 25px;
     right: 10px;
   }
 
-  .events__name {
+  .event__name {
     font-size: 25px;
   }
 
-  .events__dates {
+  .event__date {
     margin-top: 30px;
   }
 
-  .dates__item:not(:first-child) {
+  .event__date:not(:first-child) {
     margin-top: 10px;
   }
 
-  .events__creator {
+  .event__creator {
     margin-top: 40px;
   }
 
-  .events__questions {
+  .event__questions {
     margin-top: 10px;
   }
 }

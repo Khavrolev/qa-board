@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { FC, MouseEvent } from "react";
 
-interface BtnDeleteProps {
+interface ButtonDeleteProps {
   id: string;
   style: string;
   onDelete?: (id: string) => void;
 }
 
-const BtnDelete: FC<BtnDeleteProps> = ({ id, style, onDelete }) => {
+const ButtonDelete: FC<ButtonDeleteProps> = ({ id, style, onDelete }) => {
   const handleDelete = (clickEvent: MouseEvent<HTMLButtonElement>) => {
     clickEvent.stopPropagation();
     if (onDelete !== undefined) {
@@ -27,4 +27,4 @@ const BtnDelete: FC<BtnDeleteProps> = ({ id, style, onDelete }) => {
   );
 };
 
-export default BtnDelete;
+export default ButtonDelete;

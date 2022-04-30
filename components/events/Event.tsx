@@ -1,5 +1,4 @@
-import classNames from "classnames";
-import classes from "../../styles/events/Event.module.css";
+import classes from "./Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import EventDate from "./EventDate";
 import { ChangeEvent, FC } from "react";
@@ -9,7 +8,7 @@ import { DateType } from "../../utils/enums/Event";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { EventDB } from "@prisma/client";
-import BtnDelete from "../buttons/BtnDelete";
+import ButtonDelete from "../buttons/ButtonDelete";
 import { useSession } from "next-auth/react";
 import { adminRole } from "../../utils/const";
 
@@ -46,47 +45,51 @@ const Event: FC<EventProps> = ({
   const questionsCounter = event?._count.questions;
 
   return (
-    <div className={classes.events__item}>
+    <div className={classes.event}>
       {changeable && firstPage && (
-        <BtnDelete
+        <ButtonDelete
           id={event.id}
-          style={classes.events__button}
+          style={classes.event__button}
           onDelete={onDeleteEvent}
         />
       )}
       <ReactTextareaAutosize
         disabled={!changeable}
-        className={classes.events__name}
+        className={classes.event__name}
         defaultValue={isString(event.name) ? event.name : ""}
         onClick={(clickEvent) => clickEvent.stopPropagation()}
         onChange={handleChangeName}
       />
-      <div className={classNames(classes.events__dates, classes.dates)}>
-        <EventDate
-          event={event}
-          firstPage={firstPage}
-          onUpdateEvent={onUpdateEvent}
-          type={DateType.Start}
-          changeable={changeable}
-        />
-        <EventDate
-          event={event}
-          firstPage={firstPage}
-          onUpdateEvent={onUpdateEvent}
-          type={DateType.End}
-          changeable={changeable}
-        />
+      <div className={classes.event__dates}>
+        <div className={classes.event__date}>
+          <EventDate
+            event={event}
+            firstPage={firstPage}
+            onUpdateEvent={onUpdateEvent}
+            type={DateType.Start}
+            changeable={changeable}
+          />
+        </div>
+        <div className={classes.event__date}>
+          <EventDate
+            event={event}
+            firstPage={firstPage}
+            onUpdateEvent={onUpdateEvent}
+            type={DateType.End}
+            changeable={changeable}
+          />
+        </div>
       </div>
       <div
-        className={classes.events__creator}
+        className={classes.event__creator}
       >{`Creator: ${event.userName}`}</div>
-      <div className={classes.events__questions}>
-        <div className={classes.events__qacounter}>
+      <div className={classes.event__questions}>
+        <div className={classes.event__qacounter}>
           {`Questions: ${questionsCounter}`}
         </div>
         {questionsCounter >= HOT_TOPIC_AMOUNT && (
           <Image
-            className={classes.events__hot}
+            className={classes.event__hot}
             src="/img/hot_topic.png"
             alt="comemnts"
             width={16}

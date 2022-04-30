@@ -1,14 +1,14 @@
-.question__item {
+.question {
   padding: 10px;
   position: relative;
   display: flex;
   flex-direction: column;
 }
-.question__item:first-child {
+.question:first-child {
   border-top: 3px solid #dbb262;
 }
 
-.question__item:not(:first-child) {
+.question:not(:first-child) {
   border-top: 1px solid #dddddd;
 }
 
@@ -77,7 +77,7 @@
 }
 
 @media (min-width: 568px) {
-  .question__item {
+  .question {
     padding: 20px 30px;
   }
 

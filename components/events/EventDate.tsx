@@ -1,7 +1,6 @@
-import classNames from "classnames";
 import DatePicker from "react-datepicker";
 import ru from "date-fns/locale/ru";
-import classes from "../../styles/events/Event.module.css";
+import classes from "./Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { FC, MouseEvent } from "react";
 import { isString } from "../../utils/guards/Type";
@@ -57,16 +56,11 @@ const EventDate: FC<EventDateProps> = ({
   };
 
   return (
-    <div
-      className={classNames(
-        classes.dates__item,
-        classes[`dates__item_${type}`],
-      )}
-    >
-      <div className={classes.dates__desc}>{`${type}:`}</div>
-      <div className={classes.dates__date} onClick={handleClickOnDate}>
+    <div className={classes.date}>
+      <div className={classes.date__desc}>{`${type}:`}</div>
+      <div className={classes.date__date} onClick={handleClickOnDate}>
         <DatePicker
-          calendarClassName={classes.dates__calendar}
+          calendarClassName={classes.date__calendar}
           disabled={!changeable}
           selected={isString(currentDate) ? new Date(currentDate) : undefined}
           withPortal

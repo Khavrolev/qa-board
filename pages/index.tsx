@@ -2,7 +2,7 @@ import { ReactElement, useState } from "react";
 import Layout from "../components/layout/Layout";
 import { GetServerSideProps } from "next";
 import Event from "../components/events/Event";
-import classes from "../styles/events/Events.module.css";
+import classes from "../styles/Events.module.css";
 import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
 import { isString } from "../utils/guards/Type";
@@ -47,7 +47,7 @@ const Events = ({ initialEvents }: EventsProps) => {
       {session?.user ? (
         <>
           {errorFetching && (
-            <div className={classNames(classes.main__error, classes.error)}>
+            <div className={classes.main__error}>
               <ErrorFetching
                 errorMessage={errorFetching}
                 onClick={handleResetError}
@@ -68,7 +68,7 @@ const Events = ({ initialEvents }: EventsProps) => {
               <button
                 className={classNames(
                   "button",
-                  "button_padding",
+                  "button__padding",
                   classes.main__button,
                 )}
                 onClick={() =>
@@ -83,10 +83,10 @@ const Events = ({ initialEvents }: EventsProps) => {
               </button>
             )}
           </div>
-          <ul className={classNames(classes.main__events, classes.events)}>
+          <ul className={classes.main__events}>
             {events.filter(filterEvents).map((event) => (
               <Link key={event.id} href={`/${event.id}`} passHref>
-                <li className={classes.events__link}>
+                <li className={classes.main__event}>
                   <Event
                     event={event}
                     firstPage={true}

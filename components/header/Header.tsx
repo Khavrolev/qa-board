@@ -1,4 +1,4 @@
-import classes from "../../styles/Header.module.css";
+import classes from "./Header.module.css";
 import classNames from "classnames";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -44,7 +44,7 @@ const Header = () => {
                 href={`/api/auth/signout`}
                 className={classNames(
                   "button",
-                  "button_padding",
+                  "button__padding",
                   classes.header__button,
                 )}
                 onClick={(e) => {
@@ -64,7 +64,7 @@ const Header = () => {
               <button
                 className={classNames(
                   "button",
-                  "button_padding",
+                  "button__padding",
                   classes.header__button,
                 )}
                 onClick={signIn}
@@ -74,7 +74,7 @@ const Header = () => {
               <button
                 className={classNames(
                   "button",
-                  "button_padding",
+                  "button__padding",
                   classes.header__button,
                 )}
                 onClick={signUp}

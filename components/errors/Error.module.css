@@ -1,4 +1,4 @@
-.error__item {
+.error {
   padding: 10px;
   text-align: center;
   font-size: 20px;
@@ -9,7 +9,7 @@
 }
 
 @media (min-width: 568px) {
-  .error__item {
+  .error {
     padding: 20px;
     font-size: 30px;
   }

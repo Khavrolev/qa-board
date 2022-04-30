@@ -96,7 +96,7 @@ button {
   outline: 1px transparent;
 }
 
-.button_padding {
+.button__padding {
   padding: 6px 16px;
 }
 
