@@ -46,16 +46,16 @@
   flex-direction: column;
 }
 
-.events__link {
+.main__event {
   cursor: pointer;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
 }
 
-.events__link:not(:first-child) {
+.main__event:not(:first-child) {
   margin-top: 10px;
 }
 
-.events__link:hover {
+.main__event:hover {
   background-color: #d1d1d1;
 }
 

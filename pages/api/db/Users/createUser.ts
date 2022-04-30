@@ -14,9 +14,7 @@ const handler = async (
   try {
     const record = await prisma.userDB.findUnique({ where: { email } });
     if (record) {
-      res
-        .status(400)
-        .json({ message: "Ooops! This email is used, try another one" });
+      res.status(400).json({ message: "This email is used, try another one" });
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -28,7 +26,7 @@ const handler = async (
     });
     res.status(200).json(createdRecord);
   } catch (error) {
-    res.status(500).json({ message: "Ooops! Something went wrong" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 

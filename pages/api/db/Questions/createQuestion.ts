@@ -9,7 +9,7 @@ const handler = async (
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Ooops! Method not allowed" });
+    return res.status(405).json({ message: "Method not allowed" });
   }
 
   const { text, event_id, anonymousName } = req.body;
@@ -27,7 +27,7 @@ const handler = async (
     });
     res.status(200).json(createdRecord);
   } catch (error) {
-    res.status(500).json({ message: "Ooops! Something went wrong" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 

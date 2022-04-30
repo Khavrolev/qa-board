@@ -4,13 +4,13 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import classes from "./Question.module.css";
-import { adminRole } from "../../utils/const";
 import {
   getFromLocalStorage,
   removeFromLocalStorage,
   setToLocalStorage,
 } from "../../utils/localStorage/localStorage";
 import ButtonDelete from "../buttons/ButtonDelete";
+import { Roles } from "../../utils/enums/User";
 
 interface QuestionProps {
   question: QuestionDB;
@@ -25,21 +25,19 @@ const Question: FC<QuestionProps> = ({
 }) => {
   const { data: session } = useSession();
 
-  const localVariable: string = `${process.env
-    .NEXT_PUBLIC_LOCAL_STORAGE_QUESTION_LIKE!}_${question.id}`;
   const [liked, setLiked] = useState<boolean>();
 
   useEffect(() => {
-    setLiked(getFromLocalStorage(localVariable) ? true : false);
-  }, [localVariable]);
+    setLiked(getFromLocalStorage(question.id));
+  }, [question.id]);
 
   const handleUpdateLikes = async () => {
     if (liked) {
-      removeFromLocalStorage(localVariable);
+      removeFromLocalStorage(question.id);
       await onUpdateQuestion({ ...question, likes: question.likes - 1 });
       setLiked(false);
     } else {
-      setToLocalStorage(localVariable, "liked");
+      setToLocalStorage(question.id);
       await onUpdateQuestion({ ...question, likes: question.likes + 1 });
       setLiked(true);
     }
@@ -48,7 +46,7 @@ const Question: FC<QuestionProps> = ({
   return (
     <li className={classes.question}>
       {(question.userId === session?.user.id ||
-        session?.user.role === adminRole) && (
+        session?.user.role === Roles.Admin) && (
         <ButtonDelete
           id={question.id}
           style={classes.question__button}

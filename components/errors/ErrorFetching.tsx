@@ -3,12 +3,15 @@ import classes from "./Error.module.css";
 
 interface ErrorFetchingProps {
   errorMessage: string;
-  onClick: () => void;
+  handleClick: () => void;
 }
 
-const ErrorFetching: FC<ErrorFetchingProps> = ({ errorMessage, onClick }) => {
+const ErrorFetching: FC<ErrorFetchingProps> = ({
+  errorMessage,
+  handleClick,
+}) => {
   return (
-    <div className={classes.error} onClick={onClick}>
+    <div className={classes.error} onClick={handleClick}>
       {errorMessage}
     </div>
   );

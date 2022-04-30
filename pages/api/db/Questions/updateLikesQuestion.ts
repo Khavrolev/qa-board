@@ -8,7 +8,7 @@ const handler = async (
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
   if (req.method !== "PUT") {
-    return res.status(405).json({ message: "Ooops! Method not allowed" });
+    return res.status(405).json({ message: "Method not allowed" });
   }
 
   const { id, likes } = req.body;
@@ -20,7 +20,7 @@ const handler = async (
     });
     res.status(200).json(updatedRecord);
   } catch (error) {
-    res.status(500).json({ message: "Ooops! Something went wrong" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 

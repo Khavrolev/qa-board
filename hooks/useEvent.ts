@@ -37,26 +37,29 @@ export const useEvent = (
     [errorFetching, setErrorFetching],
   );
 
-  const handleCreateQuestion = async (question: CreateQuestionDB) => {
-    try {
-      const newQuestion = await fetchCreateQuestion(question);
-      if (errorFetching) {
-        setErrorFetching(null);
-      }
+  const handleCreateQuestion = useCallback(
+    async (question: CreateQuestionDB) => {
+      try {
+        const newQuestion = await fetchCreateQuestion(question);
+        if (errorFetching) {
+          setErrorFetching(null);
+        }
 
-      setEvent((prevEvent) => {
-        return {
-          ...prevEvent,
-          questions: [...prevEvent.questions, newQuestion],
-        };
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setErrorFetching(error.response?.data.message);
+        setEvent((prevEvent) => {
+          return {
+            ...prevEvent,
+            questions: [...prevEvent.questions, newQuestion],
+          };
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          setErrorFetching(error.response?.data.message);
+        }
+        console.error(error);
       }
-      console.error(error);
-    }
-  };
+    },
+    [errorFetching, setErrorFetching],
+  );
 
   const handleUpdateQuestion = useCallback(
     async (question: QuestionDB) => {
