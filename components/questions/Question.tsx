@@ -10,7 +10,7 @@ import {
   setToLocalStorage,
 } from "../../utils/localStorage/localStorage";
 import ButtonDelete from "../buttons/ButtonDelete";
-import { Roles } from "../../utils/enums/User";
+import { Roles } from "../../utils/enums/Userr";
 
 interface QuestionProps {
   question: QuestionDB;

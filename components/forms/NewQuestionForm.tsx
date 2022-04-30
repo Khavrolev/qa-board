@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Session } from "next-auth";
 import { FC, FormEvent } from "react";
 import ReactTextareaAutosize from "react-textarea-autosize";
-import { CreateQuestionDB } from "../../utils/api/Interfaces";
+import { CreateQuestionDB } from "../../utils/api/Interfacess";
 import classes from "./NewQuestionForm.module.css";
 
 interface NewQuestionFormProps {

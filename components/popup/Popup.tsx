@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Modal from "react-modal";
 import classes from "./Popup.module.css";
-import { PopupType } from "../../utils/enums/Popup";
+import { PopupType } from "../../utils/enums/Popupp";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 

@@ -11,7 +11,7 @@ import { EventDB } from "@prisma/client";
 import Link from "next/link";
 import ErrorFetching from "../components/errors/ErrorFetching";
 import { useSession } from "next-auth/react";
-import { Roles } from "../utils/enums/User";
+import { Roles } from "../utils/enums/Userr";
 
 interface EventsProps {
   initialEvents: (EventDB & {
