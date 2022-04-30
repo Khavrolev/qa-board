@@ -7,7 +7,7 @@ import {
   fetchUpdateEvent,
 } from "../utils/api/Events";
 import { CreateEventDB } from "../utils/api/Interfaces";
-import { isString } from "../utils/guards/Type";
+import { isString } from "../utils/guards/Types";
 import { useError } from "./useError";
 
 export const useEvents = (

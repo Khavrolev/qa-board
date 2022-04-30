@@ -1,17 +1,16 @@
 import { EventDB, QuestionDB } from "@prisma/client";
 import { GetServerSideProps } from "next";
-import { FormEvent, ReactElement } from "react";
+import { ReactElement } from "react";
 import Event from "../components/events/Event";
 import classes from "../styles/Questions.module.css";
 import Layout from "../components/layout/Layout";
 import prisma from "../utils/prisma/prisma";
-import { isString } from "../utils/guards/Type";
+import { isString } from "../utils/guards/Types";
 import { useEvent } from "../hooks/useEvent";
-import classNames from "classnames";
 import Question from "../components/questions/Question";
-import ReactTextareaAutosize from "react-textarea-autosize";
 import ErrorFetching from "../components/errors/ErrorFetching";
 import { useSession } from "next-auth/react";
+import NewQuestionForm from "../components/forms/NewQuestionForm";
 
 interface QuestionsProps {
   initialEvent: EventDB & {
@@ -20,7 +19,7 @@ interface QuestionsProps {
 }
 
 const Questions = ({ initialEvent }: QuestionsProps) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const {
     event,
     handleUpdateEvent,
@@ -31,25 +30,26 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
     handleResetError,
   } = useEvent(initialEvent);
 
-  const onCreateQuestion = (submitEvent: FormEvent<HTMLFormElement>) => {
-    submitEvent.preventDefault();
-
-    handleCreateQuestion({
-      text: submitEvent.currentTarget.question.value,
-      event_id: event.id,
-      anonymousName: submitEvent.currentTarget?.anonymousname?.value,
-    });
-
-    submitEvent.currentTarget.question.value = "";
-  };
+  const renderCurrentQuestions = () => (
+    <ul className={classes.main__questions}>
+      {event.questions.map((question) => (
+        <Question
+          key={question.id}
+          question={question}
+          onUpdateQuestion={handleUpdateQuestion}
+          onDeleteEvent={handleDeleteEvent}
+        />
+      ))}
+    </ul>
+  );
 
   return (
-    <Layout>
+    <>
       {errorFetching && (
         <div className={classes.main__error}>
           <ErrorFetching
             errorMessage={errorFetching}
-            onClick={handleResetError}
+            handleClick={handleResetError}
           />
         </div>
       )}
@@ -65,49 +65,20 @@ const Questions = ({ initialEvent }: QuestionsProps) => {
           className={classes.main__title}
         >{`Questions (${event.questions.length})`}</h2>
         {event.questions.length > 0 ? (
-          <ul className={classes.main__questions}>
-            {event.questions.map((question) => (
-              <Question
-                key={question.id}
-                question={question}
-                onUpdateQuestion={handleUpdateQuestion}
-                onDeleteEvent={handleDeleteEvent}
-              />
-            ))}
-          </ul>
+          renderCurrentQuestions()
         ) : (
           <div className={classes.main__noquestions}>No questions</div>
         )}
       </div>
-      <div className={classes.main__newcomment}>
-        <h3 className={classes.main__title}>Leave your question bellow</h3>
-        <form className={classes.main__form} onSubmit={onCreateQuestion}>
-          {!session?.user && (
-            <ReactTextareaAutosize
-              name="anonymousname"
-              className={classes.main__textarea}
-              required
-              placeholder="Type your name"
-            ></ReactTextareaAutosize>
-          )}
-          <ReactTextareaAutosize
-            name="question"
-            className={classes.main__textarea}
-            required
-            placeholder="Leave your question"
-          ></ReactTextareaAutosize>
-          <input
-            className={classNames(
-              "button",
-              "button__padding",
-              classes.main__askbutton,
-            )}
-            type="submit"
-            value="Ask"
-          />
-        </form>
+      <div className={classes.main__newquestion}>
+        <NewQuestionForm
+          event_id={event.id}
+          session={session}
+          status={status}
+          handleCreateQuestion={handleCreateQuestion}
+        />
       </div>
-    </Layout>
+    </>
   );
 };
 

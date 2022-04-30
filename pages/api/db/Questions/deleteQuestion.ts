@@ -1,7 +1,7 @@
 import prisma from "../../../../utils/prisma/prisma";
 import { QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isString } from "../../../../utils/guards/Type";
+import { isString } from "../../../../utils/guards/Types";
 import { ErrorData } from "../../../../utils/api/Interfaces";
 import { getSession } from "next-auth/react";
 import { adminRole } from "../../../../utils/const";
@@ -14,16 +14,16 @@ const handler = async (
 
   try {
     if (req.method !== "DELETE") {
-      return res.status(405).json({ message: "Ooops! Method not allowed" });
+      return res.status(405).json({ message: "Method not allowed" });
     }
 
     if (!isString(id)) {
-      return res.status(400).json({ message: "Ooops! Wrong id" });
+      return res.status(400).json({ message: "Wrong id" });
     }
 
     const session = await getSession({ req });
     if (!session) {
-      return res.status(500).json({ message: "Ooops! Something went wrong" });
+      return res.status(500).json({ message: "Something went wrong" });
     }
 
     const record = await prisma.questionDB.findUnique({
@@ -32,20 +32,20 @@ const handler = async (
     });
 
     if (!record) {
-      return res.status(400).json({ message: "Ooops! Wrong id" });
+      return res.status(400).json({ message: "Wrong id" });
     }
 
     if (
       session?.user.id !== record.userId &&
       session?.user.role !== adminRole
     ) {
-      return res.status(403).json({ message: "Ooops! Forbidden" });
+      return res.status(403).json({ message: "Forbidden" });
     }
 
     const deletedRecord = await prisma.questionDB.delete({ where: { id } });
     res.status(200).json(deletedRecord);
   } catch (error) {
-    res.status(500).json({ message: "Ooops! Something went wrong" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 

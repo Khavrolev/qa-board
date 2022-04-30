@@ -5,13 +5,13 @@ import Event from "../components/events/Event";
 import classes from "../styles/Events.module.css";
 import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
-import { isString } from "../utils/guards/Type";
+import { isString } from "../utils/guards/Types";
 import prisma from "../utils/prisma/prisma";
 import { EventDB } from "@prisma/client";
 import Link from "next/link";
 import ErrorFetching from "../components/errors/ErrorFetching";
 import { useSession } from "next-auth/react";
-import { adminRole } from "../utils/const";
+import { Roles } from "../utils/enums/User";
 
 interface EventsProps {
   initialEvents: (EventDB & {
@@ -42,73 +42,73 @@ const Events = ({ initialEvents }: EventsProps) => {
     return true;
   };
 
-  return (
-    <Layout>
-      {session?.user ? (
-        <>
-          {errorFetching && (
-            <div className={classes.main__error}>
-              <ErrorFetching
-                errorMessage={errorFetching}
-                onClick={handleResetError}
-              />
-            </div>
-          )}
-          <div className={classes.main__head}>
-            <label className={classes.main__label}>
-              Show old events:{" "}
-              <input
-                className={classes.main__checkbox}
-                type="checkbox"
-                checked={showOldEvents}
-                onChange={() => setShowOldEvents(!showOldEvents)}
-              />
-            </label>
-            {session?.user.role === adminRole && (
-              <button
-                className={classNames(
-                  "button",
-                  "button__padding",
-                  classes.main__button,
-                )}
-                onClick={() =>
-                  handleCreateEvent({
-                    name: "New event",
-                    start: new Date(),
-                    end: new Date(),
-                  })
-                }
-              >
-                Add event
-              </button>
-            )}
-          </div>
-          <ul className={classes.main__events}>
-            {events.filter(filterEvents).map((event) => (
-              <Link key={event.id} href={`/${event.id}`} passHref>
-                <li className={classes.main__event}>
-                  <Event
-                    event={event}
-                    firstPage={true}
-                    onUpdateEvent={handleUpdateEvent}
-                    onDeleteEvent={handleDeleteEvent}
-                  />
-                </li>
-              </Link>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <div
-          className={classNames(classes.main__notauthorized, {
-            [classes.main__loading]: !session?.user && loading,
-          })}
-        >
-          The list of events is only available to authorized users
+  const renderLoggedIn = () => (
+    <>
+      {errorFetching && (
+        <div className={classes.main__error}>
+          <ErrorFetching
+            errorMessage={errorFetching}
+            handleClick={handleResetError}
+          />
         </div>
       )}
-    </Layout>
+      <div className={classes.main__head}>
+        <label className={classes.main__label}>
+          Show old events:{" "}
+          <input
+            className={classes.main__checkbox}
+            type="checkbox"
+            checked={showOldEvents}
+            onChange={() => setShowOldEvents(!showOldEvents)}
+          />
+        </label>
+        {session?.user.role === Roles.Admin && (
+          <button
+            className={classNames(
+              "button",
+              "button__padding",
+              classes.main__button,
+            )}
+            onClick={() =>
+              handleCreateEvent({
+                name: "New event",
+                start: new Date(),
+                end: new Date(),
+              })
+            }
+          >
+            Add event
+          </button>
+        )}
+      </div>
+      <ul className={classes.main__events}>
+        {events.filter(filterEvents).map((event) => (
+          <Link key={event.id} href={`/${event.id}`} passHref>
+            <li className={classes.main__event}>
+              <Event
+                event={event}
+                firstPage={true}
+                onUpdateEvent={handleUpdateEvent}
+                onDeleteEvent={handleDeleteEvent}
+              />
+            </li>
+          </Link>
+        ))}
+      </ul>
+    </>
   );
+
+  const renderUnauthorized = () => (
+    <div
+      className={classNames(classes.main__notauthorized, {
+        [classes.main__loading]: !session?.user && loading,
+      })}
+    >
+      The list of events is only available to authorized users
+    </div>
+  );
+
+  return <>{session?.user ? renderLoggedIn() : renderUnauthorized()}</>;
 };
 
 Events.getLayout = function getLayout(page: ReactElement) {
