@@ -10,7 +10,7 @@ import ReactTextareaAutosize from "react-textarea-autosize";
 import { EventDB } from "@prisma/client";
 import ButtonDelete from "../buttons/ButtonDelete";
 import { useSession } from "next-auth/react";
-import { adminRole } from "../../utils/const";
+import { Roles } from "../../utils/enums/User";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
@@ -41,7 +41,7 @@ const Event: FC<EventProps> = ({
     DEBOUNCE_TIMEOUT,
   );
 
-  const changeable = session?.user.role === adminRole;
+  const changeable = session?.user.role === Roles.Admin;
   const questionsCounter = event?._count.questions;
 
   return (

@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { isString } from "../../../../utils/guards/type";
 import { ErrorData } from "../../../../utils/api/Interfaces";
 import { getSession } from "next-auth/react";
-import { adminRole } from "../../../../utils/const";
+import { Roles } from "../../../../utils/enums/User";
 
 const handler = async (
   req: NextApiRequest,
@@ -37,7 +37,7 @@ const handler = async (
 
     if (
       session?.user.id !== record.userId &&
-      session?.user.role !== adminRole
+      session?.user.role !== Roles.Admin
     ) {
       return res.status(403).json({ message: "Forbidden" });
     }
