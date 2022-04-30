@@ -3,7 +3,7 @@ import ru from "date-fns/locale/ru";
 import classes from "./Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { FC, MouseEvent } from "react";
-import { isString } from "../../utils/guards/Types";
+import { isString } from "../../utils/guards/type";
 import { DateType } from "../../utils/enums/Event";
 import { EventDB } from "@prisma/client";
 

@@ -2,7 +2,7 @@ import prisma from "../../../../utils/prisma/prisma";
 import { EventDB, QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ErrorData } from "../../../../utils/api/Interfaces";
-import { isString } from "../../../../utils/guards/Types";
+import { isString } from "../../../../utils/guards/type";
 import { getSession } from "next-auth/react";
 import { adminRole } from "../../../../utils/const";
 

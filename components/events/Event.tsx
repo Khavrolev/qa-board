@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import EventDate from "./EventDate";
 import { ChangeEvent, FC } from "react";
 import debounce from "lodash.debounce";
-import { isString } from "../../utils/guards/Types";
+import { isString } from "../../utils/guards/type";
 import { DateType } from "../../utils/enums/Event";
 import Image from "next/image";
 import ReactTextareaAutosize from "react-textarea-autosize";

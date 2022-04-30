@@ -1,7 +1,7 @@
 import prisma from "../../../../utils/prisma/prisma";
 import { QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isString } from "../../../../utils/guards/Types";
+import { isString } from "../../../../utils/guards/type";
 import { ErrorData } from "../../../../utils/api/Interfaces";
 import { getSession } from "next-auth/react";
 import { adminRole } from "../../../../utils/const";

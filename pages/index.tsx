@@ -5,7 +5,7 @@ import Event from "../components/events/Event";
 import classes from "../styles/Events.module.css";
 import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
-import { isString } from "../utils/guards/Types";
+import { isString } from "../utils/guards/type";
 import prisma from "../utils/prisma/prisma";
 import { EventDB } from "@prisma/client";
 import Link from "next/link";
