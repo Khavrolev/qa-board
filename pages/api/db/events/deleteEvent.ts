@@ -4,7 +4,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { ErrorData } from "../../../../utils/api/interfaces";
 import { getSession } from "next-auth/react";
 import { Roles } from "../../../../utils/enums/user";
-import { checkRequestType } from "../../../../utils/api/checkRequests";
+import {
+  isString,
+  responseErrors,
+  sendApiResponse,
+} from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
@@ -13,31 +17,31 @@ const handler = async (
   const { id } = req.query;
 
   try {
-    checkRequestType(req.method, res, "DELETE");
-
-    if (!id || Array.isArray(id)) {
-      return res.status(400).json({ message: "Wrong id" });
+    if (req.method !== "DELETE") {
+      return sendApiResponse<ErrorData>(res, responseErrors.MethodNotAllowed);
     }
 
-    const session = await getSession({ req });
-    if (!session) {
-      return res.status(500).json({ message: "Something went wrong" });
+    if (!isString(id)) {
+      return sendApiResponse<ErrorData>(res, responseErrors.WrongId);
     }
 
     const record = await prisma.eventDB.findUnique({ where: { id } });
-
     if (!record) {
-      return res.status(400).json({ message: "Wrong id" });
+      return sendApiResponse<ErrorData>(res, responseErrors.WrongId);
     }
 
+    const session = await getSession({ req });
     if (session?.user.role !== Roles.Admin) {
-      return res.status(403).json({ message: "Forbidden" });
+      return sendApiResponse<ErrorData>(res, responseErrors.NotAuthorizated);
     }
 
     const deletedRecord = await prisma.eventDB.delete({ where: { id } });
-    res.status(200).json(deletedRecord);
+    sendApiResponse<EventDB>(res, {
+      code: 200,
+      object: deletedRecord,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return sendApiResponse<ErrorData>(res, responseErrors.ServerError);
   }
 };
 

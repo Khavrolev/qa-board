@@ -1,30 +1,30 @@
 import prisma from "../../../../utils/prisma/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { EventDB } from "@prisma/client";
-import { ErrorData } from "../../../../utils/api/interfaces";
+import {
+  ErrorData,
+  EventWithQuestionCounter,
+} from "../../../../utils/api/interfaces";
 import { getSession } from "next-auth/react";
 import { Roles } from "../../../../utils/enums/user";
-import { checkRequestType } from "../../../../utils/api/checkRequests";
+import {
+  responseErrors,
+  sendApiResponse,
+} from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<
-    | (EventDB & {
-        _count: {
-          questions: number;
-        };
-      })
-    | ErrorData
-  >,
+  res: NextApiResponse<EventWithQuestionCounter | ErrorData>,
 ) => {
   const { name, start, end } = req.body;
 
   try {
-    checkRequestType(req.method, res, "POST");
+    if (req.method !== "POST") {
+      return sendApiResponse<ErrorData>(res, responseErrors.MethodNotAllowed);
+    }
 
     const session = await getSession({ req });
     if (session?.user.role !== Roles.Admin) {
-      return res.status(403).json({ message: "Forbidden" });
+      return sendApiResponse<ErrorData>(res, responseErrors.NotAuthorizated);
     }
 
     const createdRecord = await prisma.eventDB.create({
@@ -37,9 +37,12 @@ const handler = async (
       },
       include: { _count: { select: { questions: true } } },
     });
-    res.status(200).json(createdRecord);
+    sendApiResponse<EventWithQuestionCounter>(res, {
+      code: 201,
+      object: createdRecord,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return sendApiResponse(res, responseErrors.ServerError);
   }
 };
 

@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FC, MouseEvent } from "react";
 import { DateType } from "../../utils/enums/event";
 import { EventDB } from "@prisma/client";
+import classNames from "classnames";
 
 interface EventDateProps {
   event: EventDB;
@@ -51,7 +52,12 @@ const EventDate: FC<EventDateProps> = ({
   return (
     <div className={classes.date}>
       <div className={classes.date__desc}>{`${type}:`}</div>
-      <div className={classes.date__date} onClick={handleClickOnDate}>
+      <div
+        className={classNames(classes.date__item, {
+          [classes.date__item_changeable]: changeable,
+        })}
+        onClick={handleClickOnDate}
+      >
         <DatePicker
           calendarClassName={classes.date__calendar}
           disabled={!changeable}

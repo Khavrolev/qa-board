@@ -3,7 +3,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { QuestionDB } from "@prisma/client";
 import { ErrorData } from "../../../../utils/api/interfaces";
 import { getSession } from "next-auth/react";
-import { checkRequestType } from "../../../../utils/api/checkRequests";
+import {
+  responseErrors,
+  sendApiResponse,
+} from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
@@ -12,7 +15,9 @@ const handler = async (
   const { text, event_id, anonymousName } = req.body;
 
   try {
-    checkRequestType(req.method, res, "POST");
+    if (req.method !== "POST") {
+      return sendApiResponse<ErrorData>(res, responseErrors.MethodNotAllowed);
+    }
 
     const session = await getSession({ req });
 
@@ -24,9 +29,12 @@ const handler = async (
         userName: session?.user.email || anonymousName,
       },
     });
-    res.status(200).json(createdRecord);
+    sendApiResponse<QuestionDB>(res, {
+      code: 201,
+      object: createdRecord,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return sendApiResponse<ErrorData>(res, responseErrors.ServerError);
   }
 };
 

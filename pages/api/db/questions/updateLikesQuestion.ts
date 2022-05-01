@@ -2,7 +2,11 @@ import prisma from "../../../../utils/prisma/prisma";
 import { QuestionDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ErrorData } from "../../../../utils/api/interfaces";
-import { checkRequestType } from "../../../../utils/api/checkRequests";
+import {
+  isString,
+  responseErrors,
+  sendApiResponse,
+} from "../../../../utils/api/checkRequests";
 
 const handler = async (
   req: NextApiRequest,
@@ -11,15 +15,30 @@ const handler = async (
   const { id, likes } = req.body;
 
   try {
-    checkRequestType(req.method, res, "PUT");
+    if (req.method !== "PUT") {
+      return sendApiResponse<ErrorData>(res, responseErrors.MethodNotAllowed);
+    }
+
+    if (!isString(id)) {
+      return sendApiResponse<ErrorData>(res, responseErrors.WrongId);
+    }
+
+    const record = await prisma.questionDB.findUnique({ where: { id } });
+
+    if (!record) {
+      return sendApiResponse<ErrorData>(res, responseErrors.WrongId);
+    }
 
     const updatedRecord = await prisma.questionDB.update({
       where: { id },
       data: { likes },
     });
-    res.status(200).json(updatedRecord);
+    sendApiResponse<QuestionDB>(res, {
+      code: 200,
+      object: updatedRecord,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return sendApiResponse<ErrorData>(res, responseErrors.ServerError);
   }
 };
 

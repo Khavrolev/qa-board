@@ -19,6 +19,9 @@
   font-weight: bold;
   flex: 1;
   overflow: hidden;
+}
+
+.event__name_changeable {
   cursor: pointer;
 }
 
@@ -43,6 +46,10 @@
   margin-right: 10px;
   min-width: 50px;
   text-transform: capitalize;
+}
+
+.date__item_changeable {
+  cursor: pointer;
 }
 
 .date__calendar {

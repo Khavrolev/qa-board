@@ -10,6 +10,7 @@ import { EventDB } from "@prisma/client";
 import ButtonDelete from "../buttons/ButtonDelete";
 import { useSession } from "next-auth/react";
 import { Roles } from "../../utils/enums/user";
+import classNames from "classnames";
 
 const DEBOUNCE_TIMEOUT = 1000;
 const HOT_TOPIC_AMOUNT = 10;
@@ -54,7 +55,9 @@ const Event: FC<EventProps> = ({
       )}
       <ReactTextareaAutosize
         disabled={!changeable}
-        className={classes.event__name}
+        className={classNames(classes.event__name, {
+          [classes.event__name_changeable]: changeable,
+        })}
         defaultValue={event?.name}
         onClick={(clickEvent) => clickEvent.stopPropagation()}
         onChange={handleChangeName}

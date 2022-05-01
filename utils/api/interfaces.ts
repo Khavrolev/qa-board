@@ -1,6 +1,4 @@
-export interface ResponseData extends ErrorData {
-  code: number;
-}
+import { EventDB, QuestionDB } from "@prisma/client";
 
 export interface CreateEventDB {
   name: string;
@@ -21,4 +19,14 @@ export interface CreateUser {
 
 export interface ErrorData {
   message: string;
+}
+
+export interface EventWithQuestionCounter extends EventDB {
+  _count: {
+    questions: number;
+  };
+}
+
+export interface EventWithQuestions extends EventWithQuestionCounter {
+  questions: QuestionDB[];
 }
