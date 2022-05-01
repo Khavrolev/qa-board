@@ -3,7 +3,6 @@ import ru from "date-fns/locale/ru";
 import classes from "./Event.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { FC, MouseEvent } from "react";
-import { isString } from "../../utils/guards/type";
 import { DateType } from "../../utils/enums/event";
 import { EventDB } from "@prisma/client";
 
@@ -23,14 +22,8 @@ const EventDate: FC<EventDateProps> = ({
   changeable,
 }) => {
   const currentDate = event[type];
-  const minDate =
-    type === DateType.End
-      ? new Date(isString(event.start) ? event.start : "")
-      : undefined;
-  const maxDate =
-    type === DateType.Start
-      ? new Date(isString(event.end) ? event.end : "")
-      : undefined;
+  const minDate = type === DateType.End ? new Date(event.start) : undefined;
+  const maxDate = type === DateType.Start ? new Date(event.end) : undefined;
   const filterTime = (time: Date) => {
     if (
       type === DateType.Start &&
@@ -62,7 +55,7 @@ const EventDate: FC<EventDateProps> = ({
         <DatePicker
           calendarClassName={classes.date__calendar}
           disabled={!changeable}
-          selected={isString(currentDate) ? new Date(currentDate) : undefined}
+          selected={new Date(currentDate)}
           withPortal
           showTimeSelect
           dateFormat="Pp"

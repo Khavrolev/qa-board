@@ -5,7 +5,6 @@ import Event from "../components/events/Event";
 import classes from "../styles/Events.module.css";
 import classNames from "classnames";
 import { useEvents } from "../hooks/useEvents";
-import { isString } from "../utils/guards/type";
 import prisma from "../utils/prisma/prisma";
 import { EventDB } from "@prisma/client";
 import Link from "next/link";
@@ -36,10 +35,7 @@ const Events = ({ initialEvents }: EventsProps) => {
   const [showOldEvents, setShowOldEvents] = useState(false);
 
   const filterEvents = (event: EventDB) => {
-    if (isString(event.end) && !showOldEvents) {
-      return new Date(event.end) >= new Date(new Date().setHours(0, 0, 0, 0));
-    }
-    return true;
+    return new Date(event.end) >= new Date(new Date().setHours(0, 0, 0, 0));
   };
 
   const renderLoggedIn = () => (

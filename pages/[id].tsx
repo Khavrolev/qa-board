@@ -5,7 +5,6 @@ import Event from "../components/events/Event";
 import classes from "../styles/Questions.module.css";
 import Layout from "../components/layout/Layout";
 import prisma from "../utils/prisma/prisma";
-import { isString } from "../utils/guards/type";
 import { useEvent } from "../hooks/useEvent";
 import Question from "../components/questions/Question";
 import ErrorFetching from "../components/errors/ErrorFetching";
@@ -90,7 +89,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
 
   try {
-    if (!isString(id)) {
+    if (!id || Array.isArray(id)) {
       throw new Error();
     }
 

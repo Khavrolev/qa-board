@@ -7,7 +7,6 @@ import {
   fetchUpdateEvent,
 } from "../utils/api/events";
 import { CreateEventDB } from "../utils/api/interfaces";
-import { isString } from "../utils/guards/type";
 import { useError } from "./useError";
 
 export const useEvents = (
@@ -21,10 +20,7 @@ export const useEvents = (
   const { errorFetching, setErrorFetching, handleResetError } = useError();
 
   const sortEvents = (prev: EventDB, cur: EventDB) => {
-    if (isString(prev.start) && isString(cur.start)) {
-      return new Date(prev.end) >= new Date(cur.end) ? 1 : -1;
-    }
-    return 0;
+    return new Date(prev.end) >= new Date(cur.end) ? 1 : -1;
   };
 
   const handleCreateEvent = async (event: CreateEventDB) => {

@@ -1,7 +1,6 @@
 import prisma from "../../../../utils/prisma/prisma";
 import { EventDB } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isString } from "../../../../utils/guards/type";
 import { ErrorData } from "../../../../utils/api/interfaces";
 import { getSession } from "next-auth/react";
 import { Roles } from "../../../../utils/enums/user";
@@ -16,7 +15,7 @@ const handler = async (
   try {
     checkRequestType(req.method, res, "DELETE");
 
-    if (!isString(id)) {
+    if (!id || Array.isArray(id)) {
       return res.status(400).json({ message: "Wrong id" });
     }
 
