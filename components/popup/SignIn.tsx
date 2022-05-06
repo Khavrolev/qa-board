@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { signIn } from "next-auth/react";
 import { FC, useState } from "react";
 import classes from "./Popup.module.css";
@@ -58,10 +59,9 @@ const SignIn: FC<SignInProps> = ({ onIsModalOpenChange }) => {
         />
       </div>
       <div
-        style={{
-          visibility: error ? "visible" : "hidden",
-        }}
-        className={classes.popup__error}
+        className={classNames(classes.popup__error, {
+          [classes.popup__error_visibility]: error,
+        })}
       >
         {error}
       </div>

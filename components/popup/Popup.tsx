@@ -12,7 +12,7 @@ interface PopupProps {
 }
 
 const Popup: FC<PopupProps> = ({ isModalOpen, onIsModalOpenChange, type }) => {
-  const content = (() => {
+  const getContent = () => {
     switch (type) {
       case PopupType.SignIn:
         return {
@@ -34,7 +34,9 @@ const Popup: FC<PopupProps> = ({ isModalOpen, onIsModalOpenChange, type }) => {
           title: "Error",
         };
     }
-  })();
+  };
+
+  const content = getContent();
 
   return (
     <Modal

@@ -35,7 +35,10 @@ const Events = ({ initialEvents }: EventsProps) => {
   const [showOldEvents, setShowOldEvents] = useState(false);
 
   const filterEvents = (event: EventDB) => {
-    return new Date(event.end) >= new Date(new Date().setHours(0, 0, 0, 0));
+    return (
+      new Date(event.end) >= new Date(new Date().setHours(0, 0, 0, 0)) ||
+      showOldEvents
+    );
   };
 
   const renderLoggedIn = () => (

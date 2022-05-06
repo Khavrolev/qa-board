@@ -1,5 +1,9 @@
 import { UserDB } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
+import {
+  responseErrors,
+  sendApiResponse,
+} from "../../../../utils/api/checkRequests";
 import { ErrorData } from "../../../../utils/api/interfaces";
 import prisma from "../../../../utils/prisma/prisma";
 
@@ -14,7 +18,7 @@ const handler = async (
   try {
     const record = await prisma.userDB.findUnique({ where: { email } });
     if (record) {
-      res.status(400).json({ message: "This email is used, try another one" });
+      return sendApiResponse<ErrorData>(res, responseErrors.UsedEmail);
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -24,9 +28,12 @@ const handler = async (
         password: hash,
       },
     });
-    res.status(200).json(createdRecord);
+    sendApiResponse<UserDB>(res, {
+      code: 201,
+      object: createdRecord,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return sendApiResponse(res, responseErrors.ServerError);
   }
 };
 

@@ -23,6 +23,59 @@ const Header = () => {
     setIsModalOpen(true);
   };
 
+  const renderLoggedIn = () => {
+    return (
+      <div className={classes.header__logged}>
+        <div className={classes.header__nickname}>{session?.user?.email}</div>
+        <a
+          href={`/api/auth/signout`}
+          className={classNames(
+            "button",
+            "button__padding",
+            classes.header__button,
+          )}
+          onClick={(e) => {
+            e.preventDefault();
+            signOut();
+          }}
+        >
+          Sign Out
+        </a>
+      </div>
+    );
+  };
+
+  const renderUnauthorized = () => {
+    return (
+      <div
+        className={classNames({
+          [classes.header__loading]: !session?.user && loading,
+        })}
+      >
+        <button
+          className={classNames(
+            "button",
+            "button__padding",
+            classes.header__button,
+          )}
+          onClick={signIn}
+        >
+          Sign In
+        </button>
+        <button
+          className={classNames(
+            "button",
+            "button__padding",
+            classes.header__button,
+          )}
+          onClick={signUp}
+        >
+          Sign Up
+        </button>
+      </div>
+    );
+  };
+
   return (
     <>
       <Popup
@@ -35,54 +88,7 @@ const Header = () => {
           <a className={classes.header__title}>Q&A board</a>
         </Link>
         <div className={classes.header__buttons}>
-          {session?.user ? (
-            <div className={classes.header__logged}>
-              <div className={classes.header__nickname}>
-                {session?.user?.email}
-              </div>
-              <a
-                href={`/api/auth/signout`}
-                className={classNames(
-                  "button",
-                  "button__padding",
-                  classes.header__button,
-                )}
-                onClick={(e) => {
-                  e.preventDefault();
-                  signOut();
-                }}
-              >
-                Sign Out
-              </a>
-            </div>
-          ) : (
-            <div
-              className={classNames({
-                [classes.header__loading]: !session?.user && loading,
-              })}
-            >
-              <button
-                className={classNames(
-                  "button",
-                  "button__padding",
-                  classes.header__button,
-                )}
-                onClick={signIn}
-              >
-                Sign In
-              </button>
-              <button
-                className={classNames(
-                  "button",
-                  "button__padding",
-                  classes.header__button,
-                )}
-                onClick={signUp}
-              >
-                Sign Up
-              </button>
-            </div>
-          )}
+          {session?.user ? renderLoggedIn() : renderUnauthorized()}
         </div>
       </header>
     </>

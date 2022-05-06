@@ -3,6 +3,7 @@ import { signIn } from "next-auth/react";
 import { FC, useState } from "react";
 import classes from ".//Popup.module.css";
 import { fetchCreateUser } from "../../utils/api/users";
+import classNames from "classnames";
 
 const PASSWORD_REX = /.{5,}$/;
 
@@ -82,10 +83,9 @@ const SignUp: FC<SignUpProps> = ({ onIsModalOpenChange }) => {
         />
       </div>
       <div
-        style={{
-          visibility: error ? "visible" : "hidden",
-        }}
-        className={classes.popup__error}
+        className={classNames(classes.popup__error, {
+          [classes.popup__error_visibility]: error,
+        })}
       >
         {error}
       </div>

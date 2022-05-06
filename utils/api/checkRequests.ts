@@ -8,6 +8,7 @@ interface ResponseApi<Type> {
 
 interface ResponseErrors {
   WrongId: ResponseApi<ErrorData>;
+  UsedEmail: ResponseApi<ErrorData>;
   NotAuthorizated: ResponseApi<ErrorData>;
   MethodNotAllowed: ResponseApi<ErrorData>;
   ServerError: ResponseApi<ErrorData>;
@@ -15,6 +16,10 @@ interface ResponseErrors {
 
 export const responseErrors: ResponseErrors = {
   WrongId: { code: 400, object: { message: "Wrong id" } },
+  UsedEmail: {
+    code: 400,
+    object: { message: "This email is used, try another one" },
+  },
   NotAuthorizated: { code: 403, object: { message: "Forbidden" } },
   MethodNotAllowed: { code: 405, object: { message: "Method not allowed" } },
   ServerError: { code: 500, object: { message: "Something went wrong" } },

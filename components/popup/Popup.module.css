@@ -78,6 +78,10 @@
   color: #ff0000;
 }
 
+.popup__error_visibility {
+  visibility: "visible";
+}
+
 @media (min-width: 568px) {
   .popup {
     padding: 30px;
