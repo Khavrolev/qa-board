@@ -1,9 +1,9 @@
 import { NextApiResponse } from "next";
 import { ErrorData } from "./interfaces";
 
-interface ResponseApi<Type> {
+interface ResponseApi<T> {
   code: number;
-  object: Type;
+  object: T;
 }
 
 interface ResponseErrors {
@@ -25,9 +25,9 @@ export const responseErrors: ResponseErrors = {
   ServerError: { code: 500, object: { message: "Something went wrong" } },
 };
 
-export const sendApiResponse = <Type>(
+export const sendApiResponse = <T>(
   res: NextApiResponse,
-  responseObject: ResponseApi<Type>,
+  responseObject: ResponseApi<T>,
 ) => {
   const { code, object } = responseObject;
   return res.status(code).json(object);
