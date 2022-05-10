@@ -1,4 +1,5 @@
 import { EventDB, QuestionDB } from "@prisma/client";
+import { UpdateLikeType } from "../enums/question";
 
 export interface CreateEventDB {
   name: string;
@@ -10,6 +11,11 @@ export interface CreateQuestionDB {
   text: string;
   event_id: string;
   anonymousName: string | undefined;
+}
+
+export interface UpdateQuestionDB {
+  id: string;
+  type: UpdateLikeType;
 }
 
 export interface CreateUser {

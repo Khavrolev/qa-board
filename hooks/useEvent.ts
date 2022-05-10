@@ -2,7 +2,7 @@ import { EventDB, QuestionDB } from "@prisma/client";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { fetchUpdateEvent } from "../utils/api/events";
-import { CreateQuestionDB } from "../utils/api/interfaces";
+import { CreateQuestionDB, UpdateQuestionDB } from "../utils/api/interfaces";
 import {
   fetchCreateQuestion,
   fetchDeleteQuestion,
@@ -62,7 +62,7 @@ export const useEvent = (
   );
 
   const handleUpdateQuestion = useCallback(
-    async (question: QuestionDB) => {
+    async (question: UpdateQuestionDB) => {
       try {
         const updatedQuestion = await fetchUpdateQuestion(question);
         if (errorFetching) {

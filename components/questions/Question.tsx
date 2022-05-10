@@ -6,15 +6,16 @@ import { FC, useEffect, useState } from "react";
 import classes from "./Question.module.css";
 import {
   getFromLocalStorage,
-  removeFromLocalStorage,
-  setToLocalStorage,
+  toggleInLocalStorage,
 } from "../../utils/localStorage/localStorage";
 import ButtonDelete from "../buttons/ButtonDelete";
 import { Roles } from "../../utils/enums/user";
+import { UpdateQuestionDB } from "../../utils/api/interfaces";
+import { UpdateLikeType } from "../../utils/enums/question";
 
 interface QuestionProps {
   question: QuestionDB;
-  onUpdateQuestion: (question: QuestionDB) => void;
+  onUpdateQuestion: (question: UpdateQuestionDB) => void;
   onDeleteEvent: (id: string) => void;
 }
 
@@ -26,21 +27,25 @@ const Question: FC<QuestionProps> = ({
   const { data: session } = useSession();
 
   const [liked, setLiked] = useState<boolean>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLiked(getFromLocalStorage(question.id));
   }, [question.id]);
 
   const handleUpdateLikes = async () => {
-    if (liked) {
-      removeFromLocalStorage(question.id);
-      await onUpdateQuestion({ ...question, likes: question.likes - 1 });
-      setLiked(false);
-    } else {
-      setToLocalStorage(question.id);
-      await onUpdateQuestion({ ...question, likes: question.likes + 1 });
-      setLiked(true);
+    if (loading) {
+      return;
     }
+
+    setLoading(true);
+    toggleInLocalStorage(question.id, liked);
+    await onUpdateQuestion({
+      id: question.id,
+      type: liked ? UpdateLikeType.Decrement : UpdateLikeType.Increment,
+    });
+    setLiked((liked) => !liked);
+    setLoading(false);
   };
 
   return (

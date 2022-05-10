@@ -13,13 +13,8 @@ const Header = () => {
   const { data: session, status } = useSession();
   const loading = status === "loading";
 
-  const signIn = () => {
-    setPopupType(PopupType.SignIn);
-    setIsModalOpen(true);
-  };
-
-  const signUp = () => {
-    setPopupType(PopupType.SignUp);
+  const handleClick = (type: PopupType) => {
+    setPopupType(type);
     setIsModalOpen(true);
   };
 
@@ -58,7 +53,7 @@ const Header = () => {
             "button__padding",
             classes.header__button,
           )}
-          onClick={signIn}
+          onClick={() => handleClick(PopupType.SignIn)}
         >
           Sign In
         </button>
@@ -68,7 +63,7 @@ const Header = () => {
             "button__padding",
             classes.header__button,
           )}
-          onClick={signUp}
+          onClick={() => handleClick(PopupType.SignUp)}
         >
           Sign Up
         </button>

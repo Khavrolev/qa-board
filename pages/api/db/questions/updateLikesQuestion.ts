@@ -7,12 +7,13 @@ import {
   responseErrors,
   sendApiResponse,
 } from "../../../../utils/api/checkRequests";
+import { UpdateLikeType } from "../../../../utils/enums/question";
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<QuestionDB | ErrorData>,
 ) => {
-  const { id, likes } = req.body;
+  const { id, type } = req.body;
 
   try {
     if (req.method !== "PUT") {
@@ -27,6 +28,13 @@ const handler = async (
 
     if (!record) {
       return sendApiResponse<ErrorData>(res, responseErrors.WrongId);
+    }
+
+    let likes = record.likes;
+    if (type === UpdateLikeType.Decrement) {
+      likes = likes - 1;
+    } else if (type === UpdateLikeType.Increment) {
+      likes = likes + 1;
     }
 
     const updatedRecord = await prisma.questionDB.update({

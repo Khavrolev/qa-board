@@ -46,7 +46,7 @@ const Event: FC<EventProps> = ({
 
   return (
     <div className={classes.event}>
-      {changeable && firstPage && (
+      {changeable && firstPage && onDeleteEvent && (
         <ButtonDelete
           id={event.id}
           style={classes.event__button}

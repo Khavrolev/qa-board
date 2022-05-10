@@ -4,15 +4,13 @@ import { FC, MouseEvent } from "react";
 interface ButtonDeleteProps {
   id: string;
   style: string;
-  onDelete?: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 const ButtonDelete: FC<ButtonDeleteProps> = ({ id, style, onDelete }) => {
   const handleDelete = (clickEvent: MouseEvent<HTMLButtonElement>) => {
     clickEvent.stopPropagation();
-    if (onDelete !== undefined) {
-      onDelete(id);
-    }
+    onDelete(id);
   };
 
   return (
